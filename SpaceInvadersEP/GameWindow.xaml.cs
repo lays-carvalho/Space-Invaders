@@ -14,12 +14,19 @@ public partial class GameWindow : Window
     private DispatcherTimer gameTimer;  // Timer para atualização do jogo
     public List<Alien> aliens;  // Lista de alienígenas
     private CounterViewModel counterViewModel;
+    private List<Shield> shields;  // Lista para armazenar os escudos
+    
     public GameWindow()
     {
         InitializeComponent();
         
         player = new Player();
         GameCanvas.Children.Add(player.Ship);
+        
+        shields = new List<Shield>(); // Inicializando a lista de escudos
+        
+        // Criando e posicionando os escudos
+        CreateShields();
             
         // Lista para armazenar os tiros
         bullets = new List<Bullet>();
@@ -73,13 +80,62 @@ public partial class GameWindow : Window
             yPosition += 60;  // Desloca para a próxima linha de alienígenas
         }
     }
-
+    
     private void GameCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
     {
         // Posiciona o player no centro do eixo X e na parte inferior
         Canvas.SetLeft(player.Ship, (GameCanvas.ActualWidth - player.Ship.Width) / 2);
         Canvas.SetTop(player.Ship, GameCanvas.ActualHeight - player.Ship.Height - 30);  // 30 pixels acima da borda inferior
+        
+        // Reposiciona os escudos conforme o novo tamanho da tela
+        RepositionShields();
     }
+
+    private void CreateShields()
+    {
+        double spacing = 120;
+        double canvasCenterX = GameCanvas.ActualWidth / 2;
+        double startX = canvasCenterX - 5 * spacing / 2 - 50;
+        double startY = GameCanvas.ActualHeight - 100 - 60;
+
+        // Criar 6 escudos e passar a referência do GameCanvas e da lista de escudos
+        shields.Add(new Shield(startX, startY, GameCanvas, shields));  // Passa GameCanvas e a lista de escudos
+        shields.Add(new Shield(startX + spacing, startY, GameCanvas, shields));
+        shields.Add(new Shield(startX + 2 * spacing, startY, GameCanvas, shields));
+        shields.Add(new Shield(startX + 3 * spacing, startY, GameCanvas, shields));
+        shields.Add(new Shield(startX + 4 * spacing, startY, GameCanvas, shields));
+        shields.Add(new Shield(startX + 5 * spacing, startY, GameCanvas, shields));
+
+        foreach (var shield in shields)
+        {
+            GameCanvas.Children.Add(shield.ShieldImage);
+        }
+    }
+    
+    
+    private void RepositionShields()
+    {
+        // Distância entre os escudos (mantendo o espaçamento maior)
+        double spacing = 120;  // O espaçamento agora é 120 (você pode ajustar conforme necessário)
+
+        // Calcular a posição central da tela
+        double canvasCenterX = GameCanvas.ActualWidth / 2;
+
+        // Calcular a posição inicial dos escudos em torno do centro da tela
+        // 6 escudos => 5 espaços entre eles
+        double startX = canvasCenterX - 5 * spacing / 2 - 50;  // Centraliza os 6 escudos no eixo X
+        double startY = GameCanvas.ActualHeight - 100 - 60; // Fica um pouco acima da borda inferior
+
+        // Atualiza as posições dos escudos
+        for (int i = 0; i < shields.Count; i++)
+        {
+            double x = startX + i * spacing;
+            Canvas.SetLeft(shields[i].ShieldImage, x);
+            Canvas.SetTop(shields[i].ShieldImage, startY);
+        }
+    }
+
+    
         
     // Método que será chamado quando o tamanho da janela mudar
     private void GameWindow_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -145,19 +201,26 @@ public partial class GameWindow : Window
                         // Atualiza o TextBlock com a nova pontuação
                         ScoreValue.Text = counterViewModel.Counter.Pontuacao.ToString();
                         
-                        // Verifica se a pontuação atingiu 500
-                        // if (counterViewModel.Counter.Pontuacao >= 500)
-                        // {
-                        //     GameOver(); // Chama o método para terminar o jogo
-                        // }
+                        
                         GameOver();
 
                         break;  // Se o tiro acertou um alien, não verifica mais colisões com outros aliens
                     }
                 }
+                
+                // Verifica colisões com os escudos
+                foreach (var shield in shields)
+                {
+                    if (IsCollidingWithShield(bullet, shield))
+                    {
+                        shield.TakeDamage();  // Diminui a vida do escudo
+                        bullet.BulletShape.Visibility = Visibility.Collapsed;  // Destrói o tiro
+                        break; // Um tiro só pode atingir um escudo por vez
+                    }
+                }
+                
             }
         }
-
         
 
         private bool IsColliding(Bullet bullet, Alien alien)
@@ -175,6 +238,20 @@ public partial class GameWindow : Window
                    bulletLeft + bullet.BulletShape.Width > alienLeft &&
                    bulletTop < alienTop + alien.AlienShape.Height &&
                    bulletTop + bullet.BulletShape.Height > alienTop;
+        }
+        
+        private bool IsCollidingWithShield(Bullet bullet, Shield shield)
+        {
+            // Verifica se o tiro colidiu com o escudo
+            var bulletLeft = Canvas.GetLeft(bullet.BulletShape);
+            var bulletTop = Canvas.GetTop(bullet.BulletShape);
+            var shieldLeft = Canvas.GetLeft(shield.ShieldImage);
+            var shieldTop = Canvas.GetTop(shield.ShieldImage);
+
+            return bulletLeft < shieldLeft + shield.ShieldImage.Width &&
+                   bulletLeft + bullet.BulletShape.Width > shieldLeft &&
+                   bulletTop < shieldTop + shield.ShieldImage.Height &&
+                   bulletTop + bullet.BulletShape.Height > shieldTop;
         }
 
         

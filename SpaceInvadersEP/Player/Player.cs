@@ -12,15 +12,14 @@ public class Player
     public Player() {
         
         // Caminho absoluto para a imagem da nave
-        string imagePath =
-            @"C:\Rider\SpaceInvadersEP\SpaceInvadersEP\Images\Main Images\player.png"; // Caminho absoluto para o arquivo da imagem
+        string imagePath = @"Images\Main Images\player.png"; // Caminho absoluto para o arquivo da imagem
 
         // Cria a nave usando a imagem
         Ship = new Image
         {
             Width = 50, // Ajuste a largura da nave
             Height = 30, // Ajuste a altura da nave
-            Source = new BitmapImage(new Uri(imagePath, UriKind.Absolute)) // Usando Uri absoluto
+            Source = new BitmapImage(new Uri(imagePath, UriKind.Relative)) // Usando Uri absoluto
         };
 
     }

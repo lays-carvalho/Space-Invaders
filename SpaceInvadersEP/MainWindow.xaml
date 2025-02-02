@@ -8,14 +8,14 @@
         Title="MainWindow" Height="450" Width="800">
     
     <Window.Background>
-        <ImageBrush ImageSource="C:\Rider\SpaceInvadersEP\SpaceInvadersEP\Images\backgroundInicial.png" Stretch="UniformToFill"/>
+        <ImageBrush ImageSource="Images\backgroundInicial.png" Stretch="UniformToFill"/>
     </Window.Background>
     
     
     <Grid>
         
         <!-- Controle Image com tamanho ajustado -->
-        <Image Source="C:\Rider\SpaceInvadersEP\SpaceInvadersEP\Images\title.png" 
+        <Image Source="Images\title.png" 
                HorizontalAlignment="Center" 
                VerticalAlignment="Center" 
                Margin="0,-250,0,0" 
@@ -23,7 +23,7 @@
         
         
         <!--  Botão Iniciar  -->
-        <Button Content="StartGame" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="50" FontSize="25" FontFamily="Impact" Click="IniciarButton_Click" Margin="0,0,0,0"/>
+        <Button Content="StartGame" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="50" FontSize="25" FontFamily="Impact" Click="IniciarButton_StartGame" Margin="0,0,0,0"/>
         
         <!--  Botão Iniciar  -->
         <Button Content="LeaderBoard" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="50" FontSize="25" FontFamily="Impact" Click="IniciarButton_LeaderBoard" Margin="0,150,0,0"/>

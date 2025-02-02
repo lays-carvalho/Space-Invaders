@@ -20,7 +20,7 @@ public class Alien
         {
             Width = 50,
             Height = 30,
-            Source = new BitmapImage(new Uri(imagePath, UriKind.Absolute))
+            Source = new BitmapImage(new Uri(imagePath, UriKind.Relative))
         };
         
         gameCanvas = canvas;  // Inicializa a referência do Canvas

@@ -16,14 +16,17 @@ namespace SpaceInvadersEP;
 /// </summary>
 public partial class MainWindow : Window
 {
+    
     public MainWindow()
     {
         InitializeComponent();
         
+        
     }
     
-    private void IniciarButton_Click(object sender, RoutedEventArgs e)
+    private void IniciarButton_StartGame(object sender, RoutedEventArgs e)
     {
+        
         // Crie a janela do jogo (por exemplo, GameWindow) e mostre
         GameWindow gameWindow = new GameWindow();
         gameWindow.Show();
@@ -38,7 +41,7 @@ public partial class MainWindow : Window
         leaderBoardWindow.Show();
         
         // Fecha a tela inicial
-        this.Close();
+        // this.Close();
     }
 
     private void IniciarButton_GameControls(object sender, RoutedEventArgs e)
@@ -47,7 +50,7 @@ public partial class MainWindow : Window
         gameControlsWindow.Show();
         
         // Fecha a tela inicial
-        this.Close();
+        // this.Close();
     }
     
 }

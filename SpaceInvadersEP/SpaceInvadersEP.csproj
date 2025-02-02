@@ -8,4 +8,36 @@
         <UseWPF>true</UseWPF>
     </PropertyGroup>
 
+    <ItemGroup>
+      <None Remove="Images\Main Images\shield1.png" />
+      <Resource Include="Images\Main Images\shield1.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Resource>
+      <None Remove="Images\Main Images\alien 1.png" />
+      <Resource Include="Images\Main Images\alien 1.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Resource>
+      <None Remove="Images\Main Images\alien 2.png" />
+      <Resource Include="Images\Main Images\alien 2.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Resource>
+      <None Remove="Images\Main Images\alien 3.png" />
+      <Resource Include="Images\Main Images\alien 3.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Resource>
+      <None Remove="Images\Main Images\player.png" />
+      <Resource Include="Images\Main Images\player.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Resource>
+      <None Remove="Images\backgroundInicial.png" />
+      <Resource Include="Images\backgroundInicial.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Resource>
+      <None Remove="Images\title.png" />
+      <Resource Include="Images\title.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Resource>
+      <None Remove="Sounds\Click.mp4" />
+    </ItemGroup>
+
 </Project>

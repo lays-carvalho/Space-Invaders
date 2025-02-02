@@ -22,13 +22,13 @@ public class Shield
         ShieldsList = shieldsList;
 
         // Caminho da imagem do escudo
-        string imagePath = @"C:\Rider\SpaceInvadersEP\SpaceInvadersEP\Images\Main Images\shield1.png";
+        string imagePath = @"Images\Main Images\shield1.png";
             
         ShieldImage = new Image
         {
             Width = 90, // Largura do escudo
             Height = 50, // Altura do escudo
-            Source = new BitmapImage(new Uri(imagePath, UriKind.Absolute))
+            Source = new BitmapImage(new Uri(imagePath, UriKind.Relative))
         };
 
         // Define a posição do escudo no Canvas

@@ -4,7 +4,7 @@ namespace SpaceInvadersEP.Enemi;
 
 public class AlienType3 : Alien
 {
-    public AlienType3(double x, double y, Canvas gameCanvas) : base(x, y, @"C:\Rider\SpaceInvadersEP\SpaceInvadersEP\Images\Main Images\alien 3.png", gameCanvas)
+    public AlienType3(double x, double y, Canvas gameCanvas) : base(x, y, @"Images\Main Images\alien 3.png", gameCanvas)
     {
         Value = 40;  // Valor do alien tipo 3
         CanShoot = true;  // Este alien atira

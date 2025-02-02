@@ -1,0 +1,35 @@
+﻿<Window x:Class="SpaceInvadersEP.GameWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:SpaceInvadersEP"
+        mc:Ignorable="d"
+        Title="GameWindow" Height="450" Width="800"
+        KeyDown="Window_KeyDown" Focusable="True">
+    
+    <Grid>
+        <!-- A primeira camada é o Canvas, onde o jogo acontecerá -->
+        <Canvas Name="GameCanvas" Background="Black" SizeChanged="GameCanvas_SizeChanged">
+            <!-- Aqui podem ir os elementos do jogo, como naves e inimigos -->
+        </Canvas>
+
+        
+        
+        <!-- Bloco de texto para a pontuação no canto esquerdo -->
+        <TextBlock Name="ScoreText" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="HotPink" FontFamily="Impact" FontSize="20" Margin="15,10,0,0" Text="Score: " />
+
+        <!-- O valor da pontuação será atualizado dinamicamente em um segundo TextBlock -->
+        <TextBlock Name="ScoreValue" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="DeepPink" FontFamily="Impact" FontSize="20" Margin="80,10,0,0" Text="0" />
+        
+        <!-- Bloco de texto para Lives no canto direito -->
+        <TextBlock Name="LivesText" HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="HotPink" FontFamily="Impact" FontSize="20" Margin="0,10,40,0" Text="Lives: "/>
+        
+        <!-- O valor da pontuação será atualizado dinamicamente em um segundo TextBlock -->
+        <TextBlock Name="LivesValue" HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="DeepPink" FontFamily="Impact" FontSize="20" Margin="0,10,15,0" Text="3" />
+        
+        <!-- Texto para mostrar "Você Venceu!" -->
+        <TextBlock Name="VictoryMessage" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="GreenYellow" FontFamily="Impact" FontSize="40" Visibility="Collapsed" Text="Você venceu! 🎮🏆 "/>
+    </Grid>
+    
+</Window>

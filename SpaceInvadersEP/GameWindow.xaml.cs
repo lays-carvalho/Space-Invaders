@@ -178,6 +178,8 @@ public partial class GameWindow : Window
                 Bullet newBullet = new Bullet(Canvas.GetLeft(player.Ship) + (player.Ship.Width / 2) - 2, Canvas.GetTop(player.Ship) - 10);
                 bullets.Add(newBullet);
                 GameCanvas.Children.Add(newBullet.BulletShape); // Adiciona o tiro ao Canvas
+                
+                player.PlayShootSound();
             }
         }
         

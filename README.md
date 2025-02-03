@@ -1,93 +1,145 @@
-# SpaceInvaders Bogotá
+# 🚀 Space Invaders - Bogotá 🛸
+
+Bem-vindo ao **Space Invaders - ALiEn Doom**, uma recriação moderna do clássico jogo Space Invaders, desenvolvido em **C#** como um projeto desktop. Este jogo foi criado como parte de um trabalho em grupo para a disciplina de Programação 3, combinando nostalgia com novas funcionalidades para proporcionar uma experiência divertida e desafiadora.
+
+---
+
+## 🎮 Sobre o Jogo
+
+No **Space Invaders - ALiEn Doom**, você controla uma nave espacial para derrotar ondas de inimigos alienígenas. O objetivo é acumular o máximo de pontos enquanto sobrevive às investidas dos adversários. Conforme avança, a dificuldade aumenta, tornando o jogo cada vez mais desafiador.
 
 
 
-## Getting started
+## 🖼️ Imagens do Jogo
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+Imagens da *Tela inicial*
+![Sprite title](https://gitlab.com/jala-university1/cohort-3/oficial-pt-programa-o-3-cspr-231.ga.t1.25.m1/se-o-b/bogota2-group/spaceinvaders-bogota/-/raw/feature/absolute-to-relative/SpaceInvadersEP/Images/title.png?ref_type=heads)
+*Título*
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+![Tela de Jogo](https://gitlab.com/jala-university1/cohort-3/oficial-pt-programa-o-3-cspr-231.ga.t1.25.m1/se-o-b/bogota2-group/spaceinvaders-bogota/-/raw/feature/absolute-to-relative/SpaceInvadersEP/Images/backgroundInicial.png?ref_type=heads)  
+*Background Inicial*
 
-## Add your files
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+---
 
-```
-cd existing_repo
-git remote add origin https://gitlab.com/jala-university1/cohort-3/oficial-pt-programa-o-3-cspr-231.ga.t1.25.m1/se-o-b/bogota2-group/spaceinvaders-bogota.git
-git branch -M main
-git push -uf origin main
-```
+## 🛠️ Funcionalidades 
 
-## Integrate with your tools
+### Implementadas
+- **Movimentação do Jogador**: 
 
-- [ ] [Set up project integrations](https://gitlab.com/jala-university1/cohort-3/oficial-pt-programa-o-3-cspr-231.ga.t1.25.m1/se-o-b/bogota2-group/spaceinvaders-bogota/-/settings/integrations)
+    - ![Sprite da Nave](https://gitlab.com/jala-university1/cohort-3/oficial-pt-programa-o-3-cspr-231.ga.t1.25.m1/se-o-b/bogota2-group/spaceinvaders-bogota/-/raw/feature/absolute-to-relative/SpaceInvadersEP/Images/Main%20Images/player.png?ref_type=heads)
+    - O jogador se move para a esquerda e direita usando as setas do teclado (← e →).
+    - O jogador atira projéteis pressionando a barra de espaço.
+- **Ataque Alienígena**: 
 
-## Collaborate with your team
+    - As naves alienígenas são destruídas ao serem atingidas pelos projéteis do jogador.
+    - Cada nave destruída adiciona pontos à pontuação do jogador.
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+-  **Sistema de Pontuação**:
+    - <img src="https://gitlab.com/jala-university1/cohort-3/oficial-pt-programa-o-3-cspr-231.ga.t1.25.m1/se-o-b/bogota2-group/spaceinvaders-bogota/-/raw/feature/absolute-to-relative/SpaceInvadersEP/Images/Main%20Images/alien%201.png?ref_type=heads" alt="Sprite Alien" width="30" />: 10 pontos.
+    - <img src="https://gitlab.com/jala-university1/cohort-3/oficial-pt-programa-o-3-cspr-231.ga.t1.25.m1/se-o-b/bogota2-group/spaceinvaders-bogota/-/raw/feature/absolute-to-relative/SpaceInvadersEP/Images/Main%20Images/alien%202.png?ref_type=heads" alt="Sprite Alien" width="30" />: 20 pontos.
+    - <img src="https://gitlab.com/jala-university1/cohort-3/oficial-pt-programa-o-3-cspr-231.ga.t1.25.m1/se-o-b/bogota2-group/spaceinvaders-bogota/-/raw/feature/absolute-to-relative/SpaceInvadersEP/Images/Main%20Images/alien%203.png?ref_type=heads" alt="Sprite Alien" width="30
+  " />: 40 pontos.
 
-## Test and Deploy
+    - O jogo termina ao atingir ***500 pontos***.
 
-Use the built-in continuous integration in GitLab.
+- **Blocos de Proteção**: 
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+    - ![Sprite Shield](https://gitlab.com/jala-university1/cohort-3/oficial-pt-programa-o-3-cspr-231.ga.t1.25.m1/se-o-b/bogota2-group/spaceinvaders-bogota/-/raw/feature/absolute-to-relative/SpaceInvadersEP/Images/Main%20Images/shield1.png?ref_type=heads) 
+    
+    - O bloco de proteção (escudo) pode ser destruído pelo jogador.
 
-***
+    - O escudo suporta até 5 tiros antes de ser completamente destruído.
 
-# Editing this README
+- **Tela Inicial**: 
+    - Opção para iniciar um novo jogo.
+    - Instruções sobre os controles (movimentação e disparo).
+    - Quadro de Líderes (melhores pontuações)
+- **Finalização**: O jogo termina quando o jogador perde todas as vidas ou os alienígenas alcançam sua nave.
+---
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+### 🎯 Próximos Passos
 
-## Suggestions for a good README
+- **Naves "mãe"**: 
+    - Adicionar naves alienígenas vermelhas que se movem aleatoriamente (esquerda/direita) e saem do quadro.
+    - Elas aparecem 1 vez a cada 2 minutos e concedem pontos variados ao serem destruídas.
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+- **Termino do Jogo** 
+    
+     O jogo deve terminar quando:
+    - O jogador perde todas as vidas.
+    - As naves alienígenas alcançam o jogador.
 
-## Name
-Choose a self-explaining name for your project.
+- **Blocos de Proteção**: 
+    - Serão 4 blocos de proteção que mudam de cor conforme recebem dano.
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+- **Movimentação das Naves Alienígenas**: 
+    - As naves se movem da esquerda para a direita e descem uma posição ao atingir a borda.
+    - A velocidade do movimento e dos disparos aumenta a cada onda.
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+- **Sistema de Vidas**: 
+    - A cada 1000 pontos, o jogador ganha uma vida extra (máximo de 6 vidas).
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+---
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+## 🖥️ Requisitos do Sistema
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+- **Sistema Operacional**: Windows, macOS ou Linux.
+- **Dependências**: .NET Framework ou .NET Core.
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+---
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+## 🚀 Como Jogar
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+1. **Iniciar**: Selecione "Start Game" no menu principal
+2. **Comandos**:
+   - **Setas Esquerda/Direita**: Controle o movimento da nave.
+   - **Barra de Espaço**: Atira nos inimigos.
+3. **Missão**: Eliminar todos os inimigos ​​antes que invadam sua nave ou cheguem até você.
+4. **Desempenho**: Registre sua pontuação ao final e tente superar seus próprios recordes.
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+---
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+## 🗂️ Estrutura do Projeto
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+O projeto está organizado da seguinte forma:
 
-## License
-For open source projects, say how it is licensed.
+- **SpaceInvadersEP/**
+  - **Enemi/** (Gerencia os inimigos do jogo)
+    - `Alien.cs` - Classe base para os alienígenas.
+    - `AlienType1.cs` - Implementação do primeiro tipo de alienígena.
+    - `AlienType2.cs` - Implementação do segundo tipo de alienígena.
+    - `AlienType3.cs` - Implementação do terceiro tipo de alienígena.
+  - **Game/** (Elementos principais do jogo)
+    - `Bullet.cs` - Gerenciamento dos projéteis disparados.
+    - `Shield.cs` - Implementação do escudo de defesa.
+  - **Images/** (Armazena as imagens utilizadas no jogo)
+    - **Main Images/** (Sprites do jogo)
+      - `alien 1.png` - Imagem do primeiro tipo de alienígena.
+      - `alien 2.png` - Imagem do segundo tipo de alienígena.
+      - `alien 3.png` - Imagem do terceiro tipo de alienígena.
+      - `player.png` - Imagem do jogador.
+      - `shield1.png` - Imagem do escudo.
+      - `backgroundInicial.png` - Imagem do fundo inicial do jogo.
+      - `title.png` - Imagem do título do jogo.
+  - **Player/** (Gerencia o jogador)
+    - `Player.cs` - Classe do jogador e suas interações.
+  - **ScoreGame/** (Gerencia a pontuação do jogo)
+    - `CounterModel.cs` - Modelo de contagem de pontuação.
+    - `CounterViewModel.cs` - ViewModel para exibição da pontuação.
+  - `App.xaml` - Configuração inicial da aplicação.
+  - `AssemblyInfo.cs` - Informações do projeto.
+  - **Janelas da Interface Gráfica**
+    - `GameControlsWindow.xaml` - Janela com controles do jogo.
+    - `GameWindow.xaml` - Janela principal do jogo.
+    - `LeaderBoardWindow.xaml` - Janela do placar de líderes.
+    - `MainWindow.xaml` - Janela inicial do jogo.
+  - **Code-behind das janelas**
+    - `GameWindow.xaml.cs` - Lógica da janela principal do jogo.
+    - `LeaderBoardWindow.xaml.cs` - Lógica da janela de placar.
+    - `MainWindow.xaml.cs` - Lógica da janela inicial.
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+**Estrutura Mermaid**
+![Mermaid](https://mermaid.ink/img/pako:eNqNlP9u2jAQx1_F8t8UhYRAyaRJ9IdQplWqRNtJG1N1TY7g1rEjJ6ylwMNM-2MP0hfbOSmBTRCWv-58nzt_z754ySMdIw94YiCbsZuLDxPF6BtnEGGofkCMJr-8ZicnH1cjNKgiAUznTCiRikTnK3apMBVVUmlalA2lQNWO8r3rN4sMO01BtynolcHDKi8lpqgK0hhr9qgTvWIjSLFKsFZZ7mwuJRb1PvX6eCZQxke2GJoUXlEBEykkqOgQQmu816rsstoVCFW53ybcOhuQf6_YLbBtskMsWOO-085U0si6NeseZb2a9ZrYawkLNGGaEJ6VdhNdnVdF56XdKPosCZWgEZKEP0D0lBg9V_H7WlPijSgkVtsU1qzZ_xlXOwYQa7N6b67Kqeydno_cel0PWKZVMYe332-_aLrGkTa4HbHaLSufU38Fmiv6yWQ9bXuRO4HPW-ygDDbMsvYLpLKByHNMH-QiVFN9pKdPoFAC_SrAQitiSggbmbefUxHBit2GVeptWBa2ks-pdaNl_kWoWD_vKNlhDsU-o937TIOJDyH22v-K7UZX53Q-Jw84I4Ak5-yxkm-F3tvYBi6dfXLqK9hl9svai_4jr2R4i6dIL4KI6Rld2hya0Rk9QhMekBmDeZrwiVoTB_NCjxcq4kFh5tjiNP3JjAdTkDl58yyGAi8E0FucbpAM1Fetd10eLPkLD9zuoO25Xq_rO13f7Z76Lb7gQWfQa_f6Ts93Op4z8F2vu27x17KA2-47brc3cPy-c-oPvPUfCWfv6Q?type=png)
+
+---

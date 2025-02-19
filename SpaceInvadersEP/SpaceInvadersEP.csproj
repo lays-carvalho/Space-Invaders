@@ -38,6 +38,22 @@
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Resource>
       <None Remove="Sounds\Click.mp4" />
+      <None Remove="Images\GameControls\espaco.png" />
+      <Resource Include="Images\GameControls\espaco.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Resource>
+      <None Remove="Images\GameControls\seta-para-a-direita.png" />
+      <Resource Include="Images\GameControls\seta-para-a-direita.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Resource>
+      <None Remove="Images\GameControls\seta-para-a-esquerda.png" />
+      <Resource Include="Images\GameControls\seta-para-a-esquerda.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Resource>
+      <None Remove="Sounds\shoot.wav" />
+      <Content Include="Sounds\shoot.wav">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>

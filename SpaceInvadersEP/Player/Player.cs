@@ -6,6 +6,7 @@ namespace SpaceInvadersEP
 {
     public class Player
     {
+        // private MediaElement shootMediaElement;
         public Image Ship { get; set; }
         public double Speed { get; set; } = 10;
         private SoundPlayer shootSoundPlayer;  // Player para o som de disparo
@@ -25,6 +26,7 @@ namespace SpaceInvadersEP
 
             // Inicializa o player de som
             shootSoundPlayer = new SoundPlayer(@"Sounds\shoot.wav");  // Certifique-se de fornecer o caminho correto para o arquivo de som
+            
         }
 
         // Método para mover a nave
@@ -57,5 +59,6 @@ namespace SpaceInvadersEP
         {
             shootSoundPlayer.Play();  // Reproduz o som de disparo
         }
+        
     }
 }

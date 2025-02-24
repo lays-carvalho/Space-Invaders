@@ -5,8 +5,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:SpaceInvadersEP"
         mc:Ignorable="d"
-        Title="GameWindow" Height="450" Width="800"
-        KeyDown="Window_KeyDown" Focusable="True">
+        Title="Space Invaders" Height="768" Width="1024"
+        KeyDown="Window_KeyDown" Focusable="True"
+        WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     
     <Grid>
         <!-- A primeira camada é o Canvas, onde o jogo acontecerá -->
@@ -14,22 +15,40 @@
             <!-- Aqui podem ir os elementos do jogo, como naves e inimigos -->
         </Canvas>
 
-        
-        
         <!-- Bloco de texto para a pontuação no canto esquerdo -->
-        <TextBlock Name="ScoreText" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="HotPink" FontFamily="Impact" FontSize="20" Margin="15,10,0,0" Text="Score: " />
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,10,0,0">
+            <TextBlock Name="ScoreText" Foreground="HotPink" FontFamily="Impact" FontSize="20" Text="Score: " />
+            <TextBlock Name="ScoreValue" Foreground="DeepPink" FontFamily="Impact" FontSize="20" Text="0" Margin="5,0,0,0" />
+        </StackPanel>
 
-        <!-- O valor da pontuação será atualizado dinamicamente em um segundo TextBlock -->
-        <TextBlock Name="ScoreValue" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="DeepPink" FontFamily="Impact" FontSize="20" Margin="80,10,0,0" Text="0" />
-        
         <!-- Bloco de texto para Lives no canto direito -->
-        <TextBlock Name="LivesText" HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="HotPink" FontFamily="Impact" FontSize="20" Margin="0,10,40,0" Text="Lives: "/>
-        
-        <!-- O valor da pontuação será atualizado dinamicamente em um segundo TextBlock -->
-        <TextBlock Name="LivesValue" HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="DeepPink" FontFamily="Impact" FontSize="20" Margin="0,10,15,0" Text="3" />
-        
-        <!-- Texto para mostrar "Você Venceu!" -->
-        <TextBlock Name="VictoryMessage" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="GreenYellow" FontFamily="Impact" FontSize="40" Visibility="Collapsed" Text="Você venceu! 🎮🏆 "/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,15,0">
+            <TextBlock Name="LivesText" Foreground="HotPink" FontFamily="Impact" FontSize="20" Text="Lives: " />
+            <TextBlock Name="LivesValue" Foreground="DeepPink" FontFamily="Impact" FontSize="20" Text="3" Margin="5,0,0,0" />
+        </StackPanel>
+
+        <!-- Mensagem de derrota -->
+        <TextBlock x:Name="DefeatMessage" 
+                   Text="Game Over! Você foi atingido!" 
+                   Visibility="Collapsed" 
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Center" 
+                   FontSize="30" 
+                   Foreground="Red"
+                   FontFamily="Impact"
+                   FontWeight="Bold"
+                   TextAlignment="Center" />
+
+        <!-- Mensagem de vitória -->
+        <TextBlock Name="VictoryMessage" 
+                   Text="Você venceu! 🎮🏆" 
+                   Visibility="Collapsed" 
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Center" 
+                   Foreground="GreenYellow" 
+                   FontFamily="Impact" 
+                   FontSize="40"
+                   FontWeight="Bold"
+                   TextAlignment="Center" />
     </Grid>
-    
 </Window>

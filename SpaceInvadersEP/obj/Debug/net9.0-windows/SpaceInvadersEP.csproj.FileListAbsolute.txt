@@ -108,3 +108,5 @@ C:\Rider\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\SpaceInva
 C:\Rider\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\ref\SpaceInvadersEP.dll
 C:\Rider\spaceinvaders-bogota\SpaceInvadersEP\bin\Debug\net9.0-windows\Sounds\shoot.wav
 C:\Rider\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\SpaceInvadersEP_Content.g.cs
+C:\Users\PC\RiderProjects\spaceinvaders-bogota\SpaceInvadersEP\bin\Debug\net9.0-windows\Sounds\shoot.wav
+C:\Users\PC\RiderProjects\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\SpaceInvadersEP_Content.g.cs

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
@@ -10,9 +11,8 @@ public class Alien
     public double Speed { get; set; } = 5;  // Velocidade de movimento dos alienígenas
     public double Value { get; set; }  // Valor do alienígena quando destruído
     public bool CanShoot { get; set; }  // Se o alienígena pode atirar
-    
-    
-    private Canvas gameCanvas;  // Para armazenar a referência do Canvas
+
+    protected Canvas gameCanvas;  // Para armazenar a referência do Canvas
 
     public Alien(double x, double y, string imagePath, Canvas canvas)
     {
@@ -22,13 +22,13 @@ public class Alien
             Height = 30,
             Source = new BitmapImage(new Uri(imagePath, UriKind.Relative))
         };
-        
+
         gameCanvas = canvas;  // Inicializa a referência do Canvas
         Canvas.SetLeft(AlienShape, x);
         Canvas.SetTop(AlienShape, y);
     }
 
-    public virtual void Move() 
+    public virtual void Move()
     {
         // Movimento básico para todos os aliens (pode ser sobrescrito)
         double currentLeft = Canvas.GetLeft(AlienShape);
@@ -37,22 +37,30 @@ public class Alien
 
     public virtual void Destroy()
     {
-        // Verifica se o alien já foi removido da tela
-        if (AlienShape != null)
+        try
         {
-            // Remove o alien da lista de aliens
-            GameWindow gameWindow = Application.Current.MainWindow as GameWindow;
-            if (gameWindow != null)
+            // Verifica se o alien já foi removido da tela
+            if (AlienShape != null && gameCanvas.Children.Contains(AlienShape))
             {
-                gameWindow.aliens.Remove(this); // Remove o alien da lista de aliens
+                // Remove o alien da lista de aliens
+                GameWindow gameWindow = Application.Current.MainWindow as GameWindow;
+                if (gameWindow != null)
+                {
+                    gameWindow.aliens.Remove(this); // Remove o alien da lista de aliens
+                }
+
+                // Remove o alien do Canvas
+                gameCanvas.Children.Remove(AlienShape);
+
+                // Liberar recursos da imagem
+                AlienShape.Source = null;
+                AlienShape = null; // Remove a referência ao objeto de imagem
             }
-
-            // Remove o alien do Canvas
-            gameCanvas.Children.Remove(AlienShape);
-
-            // Liberar recursos da imagem
-            AlienShape.Source = null;
-            AlienShape = null; // Remove a referência ao objeto de imagem
+        }
+        catch (Exception ex)
+        {
+            // Log ou tratamento da exceção
+            MessageBox.Show($"Erro ao destruir alien: {ex.Message}");
         }
     }
 }

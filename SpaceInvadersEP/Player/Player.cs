@@ -1,4 +1,6 @@
-﻿using System.Media;
+﻿using System;
+using System.Media;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
@@ -6,7 +8,6 @@ namespace SpaceInvadersEP
 {
     public class Player
     {
-        // private MediaElement shootMediaElement;
         public Image Ship { get; set; }
         public double Speed { get; set; } = 10;
         private SoundPlayer shootSoundPlayer;  // Player para o som de disparo
@@ -26,39 +27,53 @@ namespace SpaceInvadersEP
 
             // Inicializa o player de som
             shootSoundPlayer = new SoundPlayer(@"Sounds\shoot.wav");  // Certifique-se de fornecer o caminho correto para o arquivo de som
-            
         }
 
         // Método para mover a nave
         public void Move(double dx, double canvasWidth)
         {
-            // Obtém a posição atual da nave
-            double currentLeft = Canvas.GetLeft(Ship);
-
-            // Calcula a nova posição da nave
-            double newLeft = currentLeft + dx;
-
-            // Limita o movimento para que a nave não ultrapasse as bordas
-            if (newLeft < 0)
+            try
             {
-                // Se a nave tentar ultrapassar a borda esquerda, posiciona ela na borda
-                newLeft = 0;
-            }
-            else if (newLeft > canvasWidth - Ship.Width)
-            {
-                // Se a nave tentar ultrapassar a borda direita, posiciona ela na borda
-                newLeft = canvasWidth - Ship.Width;
-            }
+                // Obtém a posição atual da nave
+                double currentLeft = Canvas.GetLeft(Ship);
 
-            // Atualiza a posição da nave
-            Canvas.SetLeft(Ship, newLeft);
+                // Calcula a nova posição da nave
+                double newLeft = currentLeft + dx;
+
+                // Limita o movimento para que a nave não ultrapasse as bordas
+                if (newLeft < 0)
+                {
+                    // Se a nave tentar ultrapassar a borda esquerda, posiciona ela na borda
+                    newLeft = 0;
+                }
+                else if (newLeft > canvasWidth - Ship.Width)
+                {
+                    // Se a nave tentar ultrapassar a borda direita, posiciona ela na borda
+                    newLeft = canvasWidth - Ship.Width;
+                }
+
+                // Atualiza a posição da nave
+                Canvas.SetLeft(Ship, newLeft);
+            }
+            catch (Exception ex)
+            {
+                // Log ou tratamento da exceção
+                MessageBox.Show($"Erro ao mover a nave: {ex.Message}");
+            }
         }
 
         // Método para reproduzir o som de disparo
         public void PlayShootSound()
         {
-            shootSoundPlayer.Play();  // Reproduz o som de disparo
+            try
+            {
+                shootSoundPlayer.Play();  // Reproduz o som de disparo
+            }
+            catch (Exception ex)
+            {
+                // Log ou tratamento da exceção
+                MessageBox.Show($"Erro ao reproduzir som de disparo: {ex.Message}");
+            }
         }
-        
     }
 }

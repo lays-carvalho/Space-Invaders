@@ -13,8 +13,9 @@
         <!-- A primeira camada é o Canvas, onde o jogo acontecerá -->
         <Canvas Name="GameCanvas" Background="Black" SizeChanged="GameCanvas_SizeChanged">
             <!-- Aqui podem ir os elementos do jogo, como naves e inimigos -->
+            
         </Canvas>
-
+        
         <!-- Bloco de texto para a pontuação no canto esquerdo -->
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,10,0,0">
             <TextBlock Name="ScoreText" Foreground="HotPink" FontFamily="Impact" FontSize="20" Text="Score: " />

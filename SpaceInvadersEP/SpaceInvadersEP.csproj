@@ -10,6 +10,9 @@
 
     <ItemGroup>
       <None Remove="Images\Main Images\shield1.png" />
+      <Resource Include="Images\Main Images\Master Spaceship\master-spaceship.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Resource>
       <Resource Include="Images\Main Images\shield1.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Resource>
@@ -54,6 +57,23 @@
       <Content Include="Sounds\shoot.wav">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
+      <None Remove="Images\Main Images\master-espaceship.png" />
+      <None Remove="Images\Main Images\Master Spaceship\master-spaceship(1).png" />
+      <Resource Include="Images\Main Images\Master Spaceship\master-spaceship(1).png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Resource>
+      <None Remove="Images\Main Images\Master Spaceship\master-spaceship(2).png" />
+      <Resource Include="Images\Main Images\Master Spaceship\master-spaceship(2).png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Resource>
+      <None Remove="Images\Main Images\Master Spaceship\master-spaceship(3).png" />
+      <Resource Include="Images\Main Images\Master Spaceship\master-spaceship(3).png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Resource>
+      <None Remove="Images\Main Images\Master Spaceship\master-spaceship(4).png" />
+      <Resource Include="Images\Main Images\Master Spaceship\master-spaceship(4).png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Resource>
     </ItemGroup>
 
 </Project>

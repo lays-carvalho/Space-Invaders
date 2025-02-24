@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-C:\Users\PC\RiderProjects\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\
+C:\Rider\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\
 SpaceInvadersEP
 none
 false
 TRACE;DEBUG;NET;NET9_0;NETCOREAPP
-C:\Users\PC\RiderProjects\spaceinvaders-bogota\SpaceInvadersEP\App.xaml
+C:\Rider\spaceinvaders-bogota\SpaceInvadersEP\App.xaml
 4-464867762
 1-1383442227
-1697169079
-200161758370
+171068085644
+200-1310591092
 GameControlsWindow.xaml;GameWindow.xaml;LeaderBoardWindow.xaml;MainWindow.xaml;
 
 False

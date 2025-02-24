@@ -90,11 +90,6 @@ C:\Rider\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\LeaderBoa
 C:\Rider\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\MainWindow.g.cs
 C:\Rider\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\App.g.cs
 C:\Rider\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\SpaceInvadersEP_MarkupCompile.cache
-C:\Rider\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\SpaceInvadersEP_MarkupCompile.lref
-C:\Rider\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\GameControlsWindow.baml
-C:\Rider\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\GameWindow.baml
-C:\Rider\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\LeaderBoardWindow.baml
-C:\Rider\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\MainWindow.baml
 C:\Rider\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\SpaceInvadersEP.g.resources
 C:\Rider\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\SpaceInvadersEP.GeneratedMSBuildEditorConfig.editorconfig
 C:\Rider\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\SpaceInvadersEP.AssemblyInfoInputs.cache
@@ -110,3 +105,8 @@ C:\Rider\spaceinvaders-bogota\SpaceInvadersEP\bin\Debug\net9.0-windows\Sounds\sh
 C:\Rider\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\SpaceInvadersEP_Content.g.cs
 C:\Users\PC\RiderProjects\spaceinvaders-bogota\SpaceInvadersEP\bin\Debug\net9.0-windows\Sounds\shoot.wav
 C:\Users\PC\RiderProjects\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\SpaceInvadersEP_Content.g.cs
+C:\Rider\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\SpaceInvadersEP_MarkupCompile.lref
+C:\Rider\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\GameControlsWindow.baml
+C:\Rider\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\GameWindow.baml
+C:\Rider\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\LeaderBoardWindow.baml
+C:\Rider\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\MainWindow.baml

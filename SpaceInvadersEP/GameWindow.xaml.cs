@@ -28,11 +28,16 @@ public partial class GameWindow : Window
     private MediaClock gameMusicClock;
     private MediaPlayer gameMusicPlayer;
 	private Random random = new Random();
+    
+    // Nave mãe (instância de MasterSpaceship)
+    private MasterSpaceship masterSpaceship;
+    
+
 
     public GameWindow()
     {
         InitializeComponent();
-
+        
         try
         {
             gameMusicPlayer = new MediaPlayer();
@@ -60,6 +65,9 @@ public partial class GameWindow : Window
 
             // Adicionando três linhas de alienígenas, com 3 de cada tipo por linha
             AddAliens();
+            
+            // Criando a nave mãe e adicionando ao canvas
+            masterSpaceship = new MasterSpaceship(GameCanvas);
 
             // Garantir que o player seja posicionado corretamente após o tamanho da tela estar pronto
             this.SizeChanged += GameWindow_SizeChanged;
@@ -75,7 +83,8 @@ public partial class GameWindow : Window
             MessageBox.Show($"Erro ao inicializar o jogo: {ex.Message}");
         }
     }
-
+    
+    
     private void GameMusicPlayer_MediaEnded(object sender, EventArgs e)
     {
         gameMusicPlayer.Position = TimeSpan.Zero;
@@ -87,7 +96,7 @@ public partial class GameWindow : Window
     {
         try
         {
-            double yPosition = 50;  // Começa no topo da tela
+            double yPosition = 100;  // Começa no topo da tela
             for (int row = 0; row < 5; row++)  // Cinco linhas de aliens
             {
                 for (int col = 0; col < 11; col++)  // Onze aliens por linha
@@ -407,6 +416,25 @@ public partial class GameWindow : Window
     {
         try
         {
+            // Verifica se algum tiro atingiu a nave mãe
+            foreach (var bullet in bullets.ToList()) // Usar ToList() para evitar modificações durante a iteração
+            {
+                if (bullet.BulletShape != null && masterSpaceship.MasterShipShape != null && IsCollidingWithMasterShip(bullet))
+                {
+                    // Se a colisão ocorreu, destrói a nave mãe e o tiro
+                    masterSpaceship.HitByPlayerShot(); // Chama a função de colisão da nave mãe
+
+                    bullet.BulletShape.Visibility = Visibility.Collapsed; // Oculta o tiro
+
+                    // Incrementa a pontuação com um valor fixo ou aleatório, se necessário
+                    int scoreValue = new Random().Next(50, 101);
+                    counterViewModel.IncrementarPontuacao(scoreValue);
+
+                    // Atualiza o TextBlock com a nova pontuação
+                    ScoreValue.Text = counterViewModel.Counter.Pontuacao.ToString();
+                }
+            }
+            
             // Verifica se algum tiro atingiu algum alien
             foreach (var bullet in bullets.ToList()) // Usar ToList() para evitar modificações durante a iteração
             {
@@ -428,7 +456,7 @@ public partial class GameWindow : Window
                         break;  // Se o tiro acertou um alien, não verifica mais colisões com outros aliens
                     }
                 }
-
+                
                 // Verifica colisões com os escudos
                 foreach (var shield in shields.ToList()) // Usar ToList() para evitar modificações durante a iteração
                 {
@@ -447,6 +475,28 @@ public partial class GameWindow : Window
         }
     }
 
+    private bool IsCollidingWithMasterShip(Bullet bullet)
+    {
+        try
+        {
+            // Verifica se o tiro colidiu com a nave mãe
+            var bulletLeft = Canvas.GetLeft(bullet.BulletShape);
+            var bulletTop = Canvas.GetTop(bullet.BulletShape);
+            var masterShipLeft = Canvas.GetLeft(masterSpaceship.MasterShipShape);
+            var masterShipTop = Canvas.GetTop(masterSpaceship.MasterShipShape);
+
+            return bulletLeft < masterShipLeft + masterSpaceship.MasterShipShape.Width &&
+                   bulletLeft + bullet.BulletShape.Width > masterShipLeft &&
+                   bulletTop < masterShipTop + masterSpaceship.MasterShipShape.Height &&
+                   bulletTop + bullet.BulletShape.Height > masterShipTop;
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Erro ao verificar colisão com nave mãe: {ex.Message}");
+            return false;
+        }
+    }
+    
     private bool IsColliding(Bullet bullet, Alien alien)
     {
         try

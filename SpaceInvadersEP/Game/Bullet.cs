@@ -27,16 +27,17 @@ public class Bullet
         WindowHeight = windowHeight; // Armazena a altura da janela
         IsPlayerBullet = isPlayerBullet;
     }
-
+    
+    
     public void Move()
     {
         if (BulletShape == null)
         {
             return; // Sai do método se BulletShape for nulo
         }
-
+    
         double currentTop = Canvas.GetTop(BulletShape);
-
+    
         if (IsPlayerBullet)
         {
             // Move o tiro do jogador para cima
@@ -47,7 +48,7 @@ public class Bullet
             // Move o tiro do alien para baixo
             Canvas.SetTop(BulletShape, currentTop + Speed);
         }
-
+    
         // Verifica se o tiro saiu da tela
         if (currentTop <= 0 || currentTop >= WindowHeight)
         {

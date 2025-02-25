@@ -114,3 +114,7 @@ C:\Rider\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\Confirmat
 C:\Rider\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\ScoreSaveScreenWindow.g.cs
 C:\Rider\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\ConfirmationScreenWindow.baml
 C:\Rider\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\ScoreSaveScreenWindow.baml
+C:\Users\PC\RiderProjects\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\ConfirmationScreenWindow.g.cs
+C:\Users\PC\RiderProjects\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\ScoreSaveScreenWindow.g.cs
+C:\Users\PC\RiderProjects\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\ConfirmationScreenWindow.baml
+C:\Users\PC\RiderProjects\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\ScoreSaveScreenWindow.baml

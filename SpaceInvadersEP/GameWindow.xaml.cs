@@ -257,81 +257,93 @@ public partial class GameWindow : Window
     }
     
     private void CheckCollisions()
+{
+    try
     {
-        try
+        // Verifica se algum tiro atingiu a nave mãe
+        foreach (var bullet in bullets.ToList()) // Usar ToList() para evitar modificações durante a iteração
         {
-            
-            // Verifica se algum tiro atingiu a nave mãe
-            foreach (var bullet in bullets.ToList()) // Usar ToList() para evitar modificações durante a iteração
+            if (bullet.BulletShape != null && masterSpaceship.MasterShipShape != null && masterSpaceship.MasterShipShape.Visibility == Visibility.Visible && IsCollidingWithMasterShip(bullet))
             {
-                if (bullet.BulletShape != null && masterSpaceship.MasterShipShape != null && masterSpaceship.MasterShipShape.Visibility == Visibility.Visible && IsCollidingWithMasterShip(bullet))
-                {
-                    // Se a colisão ocorreu, destrói a nave mãe e o tiro
-                    masterSpaceship.HitByPlayerShot(); // Chama a função de colisão da nave mãe
+                // Se a colisão ocorreu, destrói a nave mãe e o tiro
+                masterSpaceship.HitByPlayerShot(); // Chama a função de colisão da nave mãe
 
+                bullet.BulletShape.Visibility = Visibility.Collapsed; // Oculta o tiro
+
+                // Acessa a pontuação diretamente da nave mãe
+                int scoreValue = masterSpaceship.ScoreValue;
+                Console.WriteLine($"Master Spaceship hit! Score value: {scoreValue}");
+
+                // Adiciona os pontos ganhos ao total de pontos
+                controlLives.AdicionarPontos(scoreValue);
+
+                // Incrementa a pontuação no ViewModel
+                counterViewModel.IncrementarPontuacao(scoreValue);
+
+                // Atualiza o TextBlock com a nova pontuação
+                ScoreValue.Text = counterViewModel.Counter.Pontuacao.ToString();
+            }
+        }
+
+        // Verifica se algum tiro atingiu algum alien
+        foreach (var bullet in bullets.ToList()) // Usar ToList() para evitar modificações durante a iteração
+        {
+            foreach (var alien in aliens.ToList()) // Usar ToList() para evitar modificações durante a iteração
+            {
+                // Verifica se o alien ainda existe e se o tiro ainda está visível
+                if (alien.AlienShape != null && bullet.BulletShape != null && IsColliding(bullet, alien))
+                {
+                    // Se a colisão ocorreu, destrói o alien e o tiro
+                    alien.Destroy();
                     bullet.BulletShape.Visibility = Visibility.Collapsed; // Oculta o tiro
-                    
-                    // Acessa a pontuação diretamente da nave mãe
-                    int scoreValue = masterSpaceship.ScoreValue;
-                    Console.WriteLine($"Master Spaceship hit! Score value: {scoreValue}");
-                    
-                    // Adiciona os pontos ganhos ao total de pontos
-                    controlLives.AdicionarPontos(scoreValue);
-                    
-                    // Incrementa a pontuação no ViewModel
-                    counterViewModel.IncrementarPontuacao(scoreValue);
-                    
+
+                    // Remove o alien da lista
+                    aliens.Remove(alien);
+
+                    // Incrementa a pontuação com o valor do alien atingido
+                    counterViewModel.IncrementarPontuacao(Convert.ToInt32(alien.Value));
+
+                    // Adiciona os pontos ganhos
+                    controlLives.AdicionarPontos(counterViewModel.Counter.Pontuacao);
+
                     // Atualiza o TextBlock com a nova pontuação
                     ScoreValue.Text = counterViewModel.Counter.Pontuacao.ToString();
+
+                    break;  // Se o tiro acertou um alien, não verifica mais colisões com outros aliens
                 }
             }
-            
-            // Verifica se algum tiro atingiu algum alien
-            foreach (var bullet in bullets.ToList()) // Usar ToList() para evitar modificações durante a iteração
+
+            // Verifica colisões com os escudos (tiros do jogador)
+            foreach (var shield in shields.ToList()) // Usar ToList() para evitar modificações durante a iteração
             {
-                foreach (var alien in aliens.ToList()) // Usar ToList() para evitar modificações durante a iteração
+                if (bullet.BulletShape != null && shield.ShieldImage != null && IsCollidingWithShield(bullet, shield))
                 {
-                    // Verifica se o alien ainda existe e se o tiro ainda está visível
-                    if (alien.AlienShape != null && bullet.BulletShape != null && IsColliding(bullet, alien))
-                    {
-                        // Se a colisão ocorreu, destrói o alien e o tiro
-                        alien.Destroy();
-                        bullet.BulletShape.Visibility = Visibility.Collapsed; // Oculta o tiro
-                        
-                        // Remove o alien da lista
-                        aliens.Remove(alien);
-
-                        // Incrementa a pontuação com o valor do alien atingido
-                        counterViewModel.IncrementarPontuacao(Convert.ToInt32(alien.Value));
-                        
-                        // controlLives.AdicionarPontos(pontosGanhos); // Adiciona os pontos ganhos
-                        controlLives.AdicionarPontos(counterViewModel.Counter.Pontuacao); // Adiciona os pontos ganhos
-
-
-                        // Atualiza o TextBlock com a nova pontuação
-                        ScoreValue.Text = counterViewModel.Counter.Pontuacao.ToString();
-
-                        break;  // Se o tiro acertou um alien, não verifica mais colisões com outros aliens
-                    }
-                }
-                
-                // Verifica colisões com os escudos
-                foreach (var shield in shields.ToList()) // Usar ToList() para evitar modificações durante a iteração
-                {
-                    if (bullet.BulletShape != null && shield.ShieldImage != null && IsCollidingWithShield(bullet, shield))
-                    {
-                        shield.TakeDamage();  // Diminui a vida do escudo
-                        bullet.BulletShape.Visibility = Visibility.Collapsed;  // Destrói o tiro
-                        break; // Um tiro só pode atingir um escudo por vez
-                    }
+                    shield.TakeDamage();  // Diminui a vida do escudo
+                    bullet.BulletShape.Visibility = Visibility.Collapsed;  // Destrói o tiro
+                    break; // Um tiro só pode atingir um escudo por vez
                 }
             }
         }
-        catch (Exception ex)
+
+        // Verifica se algum tiro dos aliens atingiu algum escudo
+        foreach (var alienBullet in alienBullets.ToList()) // Usar ToList() para evitar modificações durante a iteração
         {
-            MessageBox.Show($"Erro ao verificar colisões: {ex.Message}");
+            foreach (var shield in shields.ToList()) // Usar ToList() para evitar modificações durante a iteração
+            {
+                if (alienBullet.BulletShape != null && shield.ShieldImage != null && IsCollidingWithShield(alienBullet, shield))
+                {
+                    shield.TakeDamage();  // Diminui a vida do escudo
+                    alienBullet.BulletShape.Visibility = Visibility.Collapsed;  // Destrói o tiro do alien
+                    break; // Um tiro só pode atingir um escudo por vez
+                }
+            }
         }
     }
+    catch (Exception ex)
+    {
+        MessageBox.Show($"Erro ao verificar colisões: {ex.Message}");
+    }
+}
     
     private void MakeAliensShoot()
     {
@@ -339,7 +351,7 @@ public partial class GameWindow : Window
         {
             if (alien is AlienType3 alienType3)
             {
-                if (random.Next(0, 100) < 1)
+                if (random.Next(0, 500) < 1)
                 {
                     alienType3.Shoot(alienBullets);
                 }
@@ -414,6 +426,8 @@ public partial class GameWindow : Window
                         alien = new AlienType3(50 + col * 60, yPosition, GameCanvas);  // Tipo 3 atira
                     else if (row == 1)
                         alien = new AlienType2(50 + col * 60, yPosition, GameCanvas);  // Tipo 2
+					else if (row == 2)
+                        alien = new AlienType2(50 + col * 60, yPosition, GameCanvas);
                     else
                         alien = new AlienType1(50 + col * 60, yPosition, GameCanvas);  // Tipo 1
 

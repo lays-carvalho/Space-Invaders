@@ -28,6 +28,7 @@ public partial class GameWindow : Window
     private MasterSpaceship masterSpaceship;// Nave mãe (instância de MasterSpaceship)
     private ControlLives controlLives;
     private bool gameWon = false; // Flag para garantir que o código de vitória seja executado uma única vez.
+    private bool isGameOver = false; // Nova variável para controle de finalização do jogo
 
     public GameWindow()
     {
@@ -86,9 +87,6 @@ public partial class GameWindow : Window
     private void AtualizarJogo()
     {
         
-        // Adicione essa linha para ver o valor das vidas
-        // Console.WriteLine($"Vidas atuais: {controlLives.Vidas}");
-
         // Atualizar a interface com o número de vidas
         vidasLabel.Content = $"Lives: {controlLives.Vidas}";
         
@@ -106,12 +104,18 @@ public partial class GameWindow : Window
             FimDeJogo(); // Chama o evento de fim de jogo quando as vidas chegarem a zero
         }
     }
+    
 
     // Chama quando o jogador perde todas as vidas (Game Over) 
     private void FimDeJogo()
     {
         
-            
+        if (isGameOver) // Se o jogo já terminou, não abre a tela novamente
+            return;
+
+        isGameOver = true; // Marca que o jogo acabou (derrota ou vitória)
+        
+        
         // Atualiza a interface para mostrar "Lives: 0"
         vidasLabel.Content = "Lives: 0";
 
@@ -126,6 +130,19 @@ public partial class GameWindow : Window
 
         // Interrompe o timer do jogo
         gameTimer.Stop();
+        
+        // Mostra a janela de Game Over (perguntar se quer salvar o score)
+        
+        // Verifique se a janela de confirmação já foi aberta (para evitar duplicação)
+        if (!gameWon) 
+        {
+            // Mostra a janela de Game Over (perguntar se quer salvar o score)
+            var confirmationScreenWindow = new ConfirmationScreenWindow();
+            confirmationScreenWindow.Show();
+            
+            // this.Close(); //se quiser encerrar a janela do jogo
+        }
+        
     }
     
     
@@ -196,6 +213,7 @@ public partial class GameWindow : Window
             {
                 MostrarVitoria();
                 gameWon = true; // Marque que o jogo foi vencido
+                
             }
             
         }
@@ -209,8 +227,12 @@ public partial class GameWindow : Window
     
     private void MostrarVitoria()
     {
-        // Verifique se os aliens realmente foram removidos
-        Console.WriteLine($"Aliens restantes: {aliens.Count}");
+        
+        if (isGameOver) // Se o jogo já terminou, não abre a tela novamente
+            return;
+
+        isGameOver = true; // Marca que o jogo acabou (derrota ou vitória)
+        
         
         // Exibe a mensagem de vitória
         VictoryMessage.Visibility = Visibility.Visible;
@@ -223,6 +245,14 @@ public partial class GameWindow : Window
         {
             masterSpaceship.StopMovement(); // Método para parar o movimento da nave mãe
         }
+        
+        // Certifique-se de marcar o jogo como vencido
+        gameWon = true;
+        
+        // Mostra a janela de confirmação de vitória
+        var confirmationScreenWindow = new ConfirmationScreenWindow();
+        confirmationScreenWindow.Show();
+        // this.Close(); //se quiser encerrar a janela do jogo
 
     }
     

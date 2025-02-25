@@ -1,0 +1,22 @@
+﻿<Window x:Class="SpaceInvadersEP.ScoreSaveScreenWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:SpaceInvadersEP"
+        mc:Ignorable="d"
+        Title="ScoreSaveScreenWindow" Height="200" Width="400" Background="Black" WindowStartupLocation="CenterScreen">
+    
+    <Grid>
+        
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Foreground="MediumPurple" FontWeight="Bold" Margin="0,0,0,110">
+            Digite seu nome:
+        </TextBlock>
+        
+        <TextBox Name="NomeTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="25" FontSize="15" Margin="0,0,0,40" Background="#E1C6E8" Foreground="Indigo"/>
+        
+        <Button Name="SalvarButton" Content="Salvar" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15" FontWeight="Bold" Width="100" Height="40" Click="SalvarButton_Click" Background="Purple" Foreground="WhiteSmoke" Margin="0,60,0,0"/>
+        
+        
+    </Grid>
+</Window>

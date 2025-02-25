@@ -18,7 +18,7 @@ public class Bullet
         {
             Width = 5,
             Height = 10,
-            Fill = isPlayerBullet ? Brushes.GreenYellow : Brushes.Red
+            Fill = isPlayerBullet ? Brushes.GreenYellow : Brushes.Cyan
         };
 
         Canvas.SetLeft(BulletShape, x);

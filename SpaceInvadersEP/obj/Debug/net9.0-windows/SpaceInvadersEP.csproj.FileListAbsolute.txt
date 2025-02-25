@@ -110,3 +110,7 @@ C:\Rider\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\GameContr
 C:\Rider\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\GameWindow.baml
 C:\Rider\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\LeaderBoardWindow.baml
 C:\Rider\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\MainWindow.baml
+C:\Rider\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\ConfirmationScreenWindow.g.cs
+C:\Rider\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\ScoreSaveScreenWindow.g.cs
+C:\Rider\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\ConfirmationScreenWindow.baml
+C:\Rider\spaceinvaders-bogota\SpaceInvadersEP\obj\Debug\net9.0-windows\ScoreSaveScreenWindow.baml

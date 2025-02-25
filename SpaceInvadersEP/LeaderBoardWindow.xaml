@@ -6,7 +6,24 @@
         xmlns:local="clr-namespace:SpaceInvadersEP"
         mc:Ignorable="d"
         Title="LeaderBoardWindow" Height="768" Width="1024">
+    
+    <Window.Background>
+        <ImageBrush ImageSource="Images\backgroundInicial.png" Stretch="UniformToFill"/>
+    </Window.Background>
+    
     <Grid>
+        
+        <!-- Opção 1 Clean (sem imagem) -->
+        <Border Height="2" Background="#00D4B3" VerticalAlignment="Top" Width="350" Margin="0,30,0,0"/>
+        <TextBlock Text="LeaderBoard" HorizontalAlignment="Center" FontSize="55" FontFamily="Impact" Foreground="LightPink" Margin="0,32,0,0"/>
+        <Border Height="2" Background="#00D4B3" VerticalAlignment="Top" Width="350" Margin="0,100,0,0"/>
+        
+        
+        
+        
+        
+        
+        
         
     </Grid>
 </Window>

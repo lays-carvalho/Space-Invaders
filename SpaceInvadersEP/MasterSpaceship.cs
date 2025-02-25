@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using SpaceInvadersEP.Game;
 
 namespace SpaceInvadersEP
 {
@@ -19,11 +20,18 @@ namespace SpaceInvadersEP
         private DateTime lastDirectionChangeTime; // Para controlar o tempo decorrido desde a última mudança de direção
         private bool isWaiting = false; // Controle para saber se a nave está esperando
         
+        private bool isMasterShipDestroyed = false;  // Adiciona essa variável
+        
+        // Nova propriedade para obter a pontuação
+        public int ScoreValue => 50 + (_random.Next(0, 6) * 10);
+
+        
 
         public MasterSpaceship(Canvas canvas)
         {
             _canvas = canvas;
             _random = new Random();
+
             
             // Inicializa o método que cria a nave mãe
             CreateMasterShip();
@@ -110,18 +118,16 @@ namespace SpaceInvadersEP
             Canvas.SetLeft(MasterShipShape, newLeft);
         }
         
-        
         // Função que é chamada quando a nave mãe é atingida por um tiro
-        public void HitByPlayerShot(){
+        public void HitByPlayerShot() {
+            if (isMasterShipDestroyed) return; // Se a nave mãe já foi destruída, não faz nada
+
+            isMasterShipDestroyed = true;  // Marca a nave como destruída
             
-            // int scoreValue = _random.Next(50, 101);
-            int scoreValue = 50 + (_random.Next(0, 6) * 10);
-            Console.WriteLine($"Master Spaceship hit! Score value: {scoreValue}");
-        
             // Temporariamente oculta a nave e depois a reposiciona fora da tela
             MasterShipShape.Visibility = Visibility.Collapsed;
             Canvas.SetTop(MasterShipShape, -MasterShipShape.Height); // A nave vai para fora da tela (acima)
-        
+
             // Inicia o respawn da nave após 10 segundos
             if (_respawnTimer == null)
             {
@@ -132,6 +138,7 @@ namespace SpaceInvadersEP
                 _respawnTimer.Tick += RespawnMasterSpaceship;
                 _respawnTimer.Start();
             }
+            
         }
         
         
@@ -156,7 +163,10 @@ namespace SpaceInvadersEP
                 // A nova nave começa à esquerda da tela (fora da tela à esquerda)
                 Canvas.SetLeft(MasterShipShape, -MasterShipShape.Width);
             }
-        
+            
+            // Define a posição Y para garantir o alinhamento correto
+            Canvas.SetTop(MasterShipShape, 35);  // Alinha no eixo Y
+            
             // Define a nave visível e inicia o movimento novamente
             MasterShipShape.Visibility = Visibility.Visible;
             _movementTimer.Start();

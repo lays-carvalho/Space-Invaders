@@ -26,11 +26,9 @@ public partial class GameWindow : Window
     private double dropDistance = 12;
     private MediaTimeline gameMusicTimeline;
     private MediaClock gameMusicClock;
-    private MediaPlayer gameMusicPlayer;
-	private Random random = new Random();
-    
-    // Nave mãe (instância de MasterSpaceship)
-    private MasterSpaceship masterSpaceship;
+    private MediaPlayer gameMusicPlayer; 
+    private Random random = new Random();
+    private MasterSpaceship masterSpaceship;// Nave mãe (instância de MasterSpaceship)
     
 
 
@@ -416,10 +414,11 @@ public partial class GameWindow : Window
     {
         try
         {
+            
             // Verifica se algum tiro atingiu a nave mãe
             foreach (var bullet in bullets.ToList()) // Usar ToList() para evitar modificações durante a iteração
             {
-                if (bullet.BulletShape != null && masterSpaceship.MasterShipShape != null && IsCollidingWithMasterShip(bullet))
+                if (bullet.BulletShape != null && masterSpaceship.MasterShipShape != null && masterSpaceship.MasterShipShape.Visibility == Visibility.Visible && IsCollidingWithMasterShip(bullet))
                 {
                     // Se a colisão ocorreu, destrói a nave mãe e o tiro
                     masterSpaceship.HitByPlayerShot(); // Chama a função de colisão da nave mãe
@@ -427,9 +426,15 @@ public partial class GameWindow : Window
                     bullet.BulletShape.Visibility = Visibility.Collapsed; // Oculta o tiro
 
                     // Incrementa a pontuação com um valor fixo ou aleatório, se necessário
-                    int scoreValue = new Random().Next(50, 101);
+                    // int scoreValue = 50 + (new Random().Next(0, 6) * 10);
+                    
+                    // Acessa a pontuação diretamente da nave mãe
+                    int scoreValue = masterSpaceship.ScoreValue;
+                    Console.WriteLine($"Master Spaceship hit! Score value: {scoreValue}");
+                    
+                    // Incrementa a pontuação no ViewModel
                     counterViewModel.IncrementarPontuacao(scoreValue);
-
+                    
                     // Atualiza o TextBlock com a nova pontuação
                     ScoreValue.Text = counterViewModel.Counter.Pontuacao.ToString();
                 }

@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using System.Windows.Media;
 
 namespace SpaceInvadersEP.Enemi;
 
@@ -39,6 +40,11 @@ public class Alien
     {
         try
         {
+
+			MediaPlayer explosionSound = new MediaPlayer();
+			explosionSound.Open(new Uri("Sounds/alien_explosion.mp3", UriKind.Relative));
+			explosionSound.Play();
+
             // Verifica se o alien já foi removido da tela
             if (AlienShape != null && gameCanvas.Children.Contains(AlienShape))
             {

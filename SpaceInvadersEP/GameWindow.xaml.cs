@@ -29,7 +29,9 @@ public partial class GameWindow : Window
     private ControlLives controlLives;
     private bool gameWon = false; // Flag para garantir que o código de vitória seja executado uma única vez.
     private bool isGameOver = false; // Nova variável para controle de finalização do jogo
-
+	private MediaPlayer defeatSoundPlayer;
+	private MediaPlayer victorySoundPlayer;
+    
     public GameWindow()
     {
         InitializeComponent();
@@ -39,6 +41,15 @@ public partial class GameWindow : Window
         
         try
         {
+
+			victorySoundPlayer = new MediaPlayer();
+			victorySoundPlayer.Open(new Uri("Sounds/winning_sound.mp3", UriKind.Relative));
+			victorySoundPlayer.Volume = 0.5;
+
+			defeatSoundPlayer = new MediaPlayer();
+			defeatSoundPlayer.Open(new Uri("Sounds/defeat_sound.mp3", UriKind.Relative));
+			defeatSoundPlayer.Volume = 0.1;
+
             gameMusicPlayer = new MediaPlayer();
             gameMusicPlayer.Open(new Uri("Sounds/gameplay_music.mp3", UriKind.Relative));
             gameMusicPlayer.Volume = 0.1;
@@ -115,7 +126,6 @@ public partial class GameWindow : Window
 
         isGameOver = true; // Marca que o jogo acabou (derrota ou vitória)
         
-        
         // Atualiza a interface para mostrar "Lives: 0"
         vidasLabel.Content = "Lives: 0";
 
@@ -131,7 +141,17 @@ public partial class GameWindow : Window
         // Interrompe o timer do jogo
         gameTimer.Stop();
         
-        // Mostra a janela de Game Over (perguntar se quer salvar o score)
+		gameMusicPlayer.Stop(); // Para a música de fundo
+
+        try
+        {
+           defeatSoundPlayer.Position = TimeSpan.Zero;
+           defeatSoundPlayer.Play();
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Erro ao tocar o som de derrota: {ex.Message}");
+        }
         
         // Verifique se a janela de confirmação já foi aberta (para evitar duplicação)
         if (!gameWon) 
@@ -239,7 +259,11 @@ public partial class GameWindow : Window
 
         // Para o timer do jogo
         gameTimer.Stop();
-        
+        gameMusicPlayer.Stop(); // Para a música de fundo
+		
+		victorySoundPlayer.Position = TimeSpan.Zero;
+		victorySoundPlayer.Play();
+
         // Para o timer de movimento da nave mãe
         if (masterSpaceship != null)
         {
@@ -590,6 +614,29 @@ public partial class GameWindow : Window
                     shouldDescend = true;
                     break;
                 }
+
+                // Verifica se o alien colidiu com a nave do jogador
+                if (IsCollidingWithPlayer(alien))
+                {
+                    // Destrói o alien
+                    alien.Destroy();
+                    aliens.Remove(alien);
+
+                    // Faz o jogador perder uma vida
+                    JogadorFoiAtacado();
+
+                    // Se o jogador tiver apenas uma vida, destrói a nave do jogador
+                    if (controlLives.Vidas == 1)
+                    {
+                        // Remove a nave do jogador do Canvas
+                        GameCanvas.Children.Remove(player.Ship);
+
+                        // Encerra o jogo
+                        FimDeJogo();
+                    }
+
+                    break; // Sai do loop após detectar a colisão
+                }
             }
 
             // Se algum alienígena atingiu a borda, todos devem descer
@@ -598,31 +645,31 @@ public partial class GameWindow : Window
                 movingRight = !movingRight;
                 alienSpeed += 0.5;  // Aumenta a velocidade dos aliens
 
-                foreach (var alien in aliens.ToList()) // Usar ToList() para evitar modificações durante a iteração
+                foreach (var alienDescend in aliens.ToList()) // Usar ToList() para evitar modificações durante a iteração
                 {
                     // Verifica se o AlienShape ainda existe
-                    if (alien.AlienShape == null || !GameCanvas.Children.Contains(alien.AlienShape))
+                    if (alienDescend.AlienShape == null || !GameCanvas.Children.Contains(alienDescend.AlienShape))
                     {
                         continue; // Se o alienígena foi destruído, pula para o próximo
                     }
 
-                    double currentY = Canvas.GetTop(alien.AlienShape);
-                    Canvas.SetTop(alien.AlienShape, currentY + dropDistance); // Move o alienígena para baixo
+                    double currentY = Canvas.GetTop(alienDescend.AlienShape);
+                    Canvas.SetTop(alienDescend.AlienShape, currentY + dropDistance); // Move o alienígena para baixo
                 }
             }
 
             // Move todos os alienígenas na direção atual
             double movement = movingRight ? alienSpeed : -alienSpeed;
-            foreach (var alien in aliens.ToList()) // Usar ToList() para evitar modificações durante a iteração
+            foreach (var alienMove in aliens.ToList()) // Usar ToList() para evitar modificações durante a iteração
             {
                 // Verifica se o AlienShape ainda existe
-                if (alien.AlienShape == null || !GameCanvas.Children.Contains(alien.AlienShape))
+                if (alienMove.AlienShape == null || !GameCanvas.Children.Contains(alienMove.AlienShape))
                 {
                     continue; // Se o alienígena foi destruído, pula para o próximo
                 }
 
-                double currentX = Canvas.GetLeft(alien.AlienShape);
-                Canvas.SetLeft(alien.AlienShape, currentX + movement); // Move o alienígena horizontalmente
+                double currentX = Canvas.GetLeft(alienMove.AlienShape);
+                Canvas.SetLeft(alienMove.AlienShape, currentX + movement); // Move o alienígena horizontalmente
             }
         }
         catch (Exception ex)
@@ -630,7 +677,6 @@ public partial class GameWindow : Window
             MessageBox.Show($"Erro ao mover alienígenas: {ex.Message}");
         }
     }
-
     private bool IsCollidingWithMasterShip(Bullet bullet)
     {
         try
@@ -703,6 +749,35 @@ public partial class GameWindow : Window
             return false;
         }
     }
+
+	private bool IsCollidingWithPlayer(Alien alien)
+{
+    try
+    {
+        // Verifica se o alien e a nave do jogador ainda estão na tela
+        if (alien.AlienShape == null || player.Ship == null || 
+            !GameCanvas.Children.Contains(alien.AlienShape) || 
+            !GameCanvas.Children.Contains(player.Ship))
+        {
+            return false; // Se o alien ou a nave do jogador foram destruídos, não há colisão
+        }
+
+        var alienLeft = Canvas.GetLeft(alien.AlienShape);
+        var alienTop = Canvas.GetTop(alien.AlienShape);
+        var playerLeft = Canvas.GetLeft(player.Ship);
+        var playerTop = Canvas.GetTop(player.Ship);
+
+        return alienLeft < playerLeft + player.Ship.Width &&
+               alienLeft + alien.AlienShape.Width > playerLeft &&
+               alienTop < playerTop + player.Ship.Height &&
+               alienTop + alien.AlienShape.Height > playerTop;
+    }
+    catch (Exception ex)
+    {
+        MessageBox.Show($"Erro ao verificar colisão com o jogador: {ex.Message}");
+        return false;
+    }
+}	
 
     
 }

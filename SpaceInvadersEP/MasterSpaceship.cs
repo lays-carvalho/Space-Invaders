@@ -172,6 +172,15 @@ namespace SpaceInvadersEP
             _movementTimer.Start();
         }
         
+        public void StopMovement()
+        {
+            if (_movementTimer != null && _movementTimer.IsEnabled)
+            {
+                _movementTimer.Stop();  // Para o timer de movimento
+            }
+        }
+
+        
     }
     
 }

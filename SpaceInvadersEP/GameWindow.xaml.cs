@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using SpaceInvadersEP.Enemi;
 using SpaceInvadersEP.Game;
-using System.Windows.Media.Animation;
+
 
 namespace SpaceInvadersEP;
 
@@ -29,12 +26,15 @@ public partial class GameWindow : Window
     private MediaPlayer gameMusicPlayer; 
     private Random random = new Random();
     private MasterSpaceship masterSpaceship;// Nave mãe (instância de MasterSpaceship)
-    
-
+    private ControlLives controlLives;
+    private bool gameWon = false; // Flag para garantir que o código de vitória seja executado uma única vez.
 
     public GameWindow()
     {
         InitializeComponent();
+        controlLives = new ControlLives();
+        controlLives.GameOver += FimDeJogo; // Associa o evento de Game Over com o método de fim de jogo
+        controlLives.VidasAlteradas += AtualizarJogo; // Associa o evento de vidas alteradas com a atualização do jogo
         
         try
         {
@@ -81,6 +81,284 @@ public partial class GameWindow : Window
             MessageBox.Show($"Erro ao inicializar o jogo: {ex.Message}");
         }
     }
+    
+    // Método para atualizar o jogo
+    private void AtualizarJogo()
+    {
+        
+        // Adicione essa linha para ver o valor das vidas
+        // Console.WriteLine($"Vidas atuais: {controlLives.Vidas}");
+
+        // Atualizar a interface com o número de vidas
+        vidasLabel.Content = $"Lives: {controlLives.Vidas}";
+        
+    }
+    
+    
+    private void JogadorFoiAtacado()
+    {
+        controlLives.PerderVida(); // Perde uma vida quando atingido
+        AtualizarJogo(); // Atualiza a interface com as novas vidas
+
+        // Verificar se as vidas chegaram a zero após a perda de uma vida
+        if (controlLives.Vidas == 0)
+        {
+            FimDeJogo(); // Chama o evento de fim de jogo quando as vidas chegarem a zero
+        }
+    }
+
+    // Chama quando o jogador perde todas as vidas (Game Over) 
+    private void FimDeJogo()
+    {
+        
+            
+        // Atualiza a interface para mostrar "Lives: 0"
+        vidasLabel.Content = "Lives: 0";
+
+        // Exibe a mensagem de fim de jogo
+        DefeatMessage.Visibility = Visibility.Visible;
+
+        // Para o timer de movimento da nave mãe
+        if (masterSpaceship != null)
+        {
+            masterSpaceship.StopMovement(); // Método para parar o movimento da nave mãe
+        }
+
+        // Interrompe o timer do jogo
+        gameTimer.Stop();
+    }
+    
+    
+    // Evento chamado a cada "tick" do Timer
+    private void GameTimer_Tick(object sender, EventArgs e)
+    {
+        try
+        {
+            
+            // Verificar colisões entre os tiros dos aliens e o jogador
+            CheckAlienBulletCollisions();
+    
+            
+            // Atualiza o jogo a cada tick
+            AtualizarJogo();
+            
+    
+            // Mover todos os tiros do jogador
+            foreach (var bullet in bullets.ToList())
+            {
+                if (bullet != null && bullet.BulletShape != null)
+                {
+                    bullet.Move();
+                }
+            }
+    
+            // Mover todos os tiros dos aliens
+            foreach (var bullet in alienBullets.ToList())
+            {
+                if (bullet != null && bullet.BulletShape != null)
+                {
+                    bullet.Move();
+                }
+            }
+    
+            // Verificar colisões entre os tiros do jogador e os aliens
+            CheckCollisions();
+    
+            // Verificar colisões entre os tiros dos aliens e o jogador
+            CheckAlienBulletCollisions();
+    
+            // Remover tiros que saíram da tela ou colidiram
+            bullets.RemoveAll(bullet => bullet == null || bullet.BulletShape == null || bullet.BulletShape.Visibility == Visibility.Collapsed || Canvas.GetTop(bullet.BulletShape) < 0);
+            alienBullets.RemoveAll(bullet => bullet == null || bullet.BulletShape == null || bullet.BulletShape.Visibility == Visibility.Collapsed || Canvas.GetTop(bullet.BulletShape) > GameCanvas.ActualHeight);
+    
+            // Fazer os aliens atirarem
+            MakeAliensShoot();
+    
+            MoveAliens();
+            
+            
+            // Acaba o jogo com 200 pontos (Entrega Parcial)
+            // if (aliens.Count == 0 || counterViewModel.Counter.Pontuacao >= 500)
+            // {
+            //     // Exibe a mensagem de vitória se os aliens foram todos destruídos ou a pontuação for >= 200
+            //     MostrarVitoria();
+            //     
+            //     // Para o timer de movimento da nave mãe
+            //     if (masterSpaceship != null)
+            //     {
+            //         masterSpaceship.StopMovement(); // Método para parar o movimento da nave mãe
+            //     }
+            //     
+            // }
+            
+            // Verifica se todos os aliens foram destruídos
+            if (aliens.Count == 0 && !gameWon) // Verifique se o jogo já foi vencido para não repetir
+            {
+                MostrarVitoria();
+                gameWon = true; // Marque que o jogo foi vencido
+            }
+            
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Erro no loop do jogo: {ex.Message} \n StackTrace: {ex.StackTrace}");
+            
+            Console.WriteLine($"Erro no loop do jogo: {ex.StackTrace}"); // Log para depuração
+        }
+    }
+    
+    private void MostrarVitoria()
+    {
+        // Verifique se os aliens realmente foram removidos
+        Console.WriteLine($"Aliens restantes: {aliens.Count}");
+        
+        // Exibe a mensagem de vitória
+        VictoryMessage.Visibility = Visibility.Visible;
+
+        // Para o timer do jogo
+        gameTimer.Stop();
+        
+        // Para o timer de movimento da nave mãe
+        if (masterSpaceship != null)
+        {
+            masterSpaceship.StopMovement(); // Método para parar o movimento da nave mãe
+        }
+
+    }
+    
+    private void CheckCollisions()
+    {
+        try
+        {
+            
+            // Verifica se algum tiro atingiu a nave mãe
+            foreach (var bullet in bullets.ToList()) // Usar ToList() para evitar modificações durante a iteração
+            {
+                if (bullet.BulletShape != null && masterSpaceship.MasterShipShape != null && masterSpaceship.MasterShipShape.Visibility == Visibility.Visible && IsCollidingWithMasterShip(bullet))
+                {
+                    // Se a colisão ocorreu, destrói a nave mãe e o tiro
+                    masterSpaceship.HitByPlayerShot(); // Chama a função de colisão da nave mãe
+
+                    bullet.BulletShape.Visibility = Visibility.Collapsed; // Oculta o tiro
+                    
+                    // Acessa a pontuação diretamente da nave mãe
+                    int scoreValue = masterSpaceship.ScoreValue;
+                    Console.WriteLine($"Master Spaceship hit! Score value: {scoreValue}");
+                    
+                    // Adiciona os pontos ganhos ao total de pontos
+                    controlLives.AdicionarPontos(scoreValue);
+                    
+                    // Incrementa a pontuação no ViewModel
+                    counterViewModel.IncrementarPontuacao(scoreValue);
+                    
+                    // Atualiza o TextBlock com a nova pontuação
+                    ScoreValue.Text = counterViewModel.Counter.Pontuacao.ToString();
+                }
+            }
+            
+            // Verifica se algum tiro atingiu algum alien
+            foreach (var bullet in bullets.ToList()) // Usar ToList() para evitar modificações durante a iteração
+            {
+                foreach (var alien in aliens.ToList()) // Usar ToList() para evitar modificações durante a iteração
+                {
+                    // Verifica se o alien ainda existe e se o tiro ainda está visível
+                    if (alien.AlienShape != null && bullet.BulletShape != null && IsColliding(bullet, alien))
+                    {
+                        // Se a colisão ocorreu, destrói o alien e o tiro
+                        alien.Destroy();
+                        bullet.BulletShape.Visibility = Visibility.Collapsed; // Oculta o tiro
+                        
+                        // Remove o alien da lista
+                        aliens.Remove(alien);
+
+                        // Incrementa a pontuação com o valor do alien atingido
+                        counterViewModel.IncrementarPontuacao(Convert.ToInt32(alien.Value));
+                        
+                        // controlLives.AdicionarPontos(pontosGanhos); // Adiciona os pontos ganhos
+                        controlLives.AdicionarPontos(counterViewModel.Counter.Pontuacao); // Adiciona os pontos ganhos
+
+
+                        // Atualiza o TextBlock com a nova pontuação
+                        ScoreValue.Text = counterViewModel.Counter.Pontuacao.ToString();
+
+                        break;  // Se o tiro acertou um alien, não verifica mais colisões com outros aliens
+                    }
+                }
+                
+                // Verifica colisões com os escudos
+                foreach (var shield in shields.ToList()) // Usar ToList() para evitar modificações durante a iteração
+                {
+                    if (bullet.BulletShape != null && shield.ShieldImage != null && IsCollidingWithShield(bullet, shield))
+                    {
+                        shield.TakeDamage();  // Diminui a vida do escudo
+                        bullet.BulletShape.Visibility = Visibility.Collapsed;  // Destrói o tiro
+                        break; // Um tiro só pode atingir um escudo por vez
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Erro ao verificar colisões: {ex.Message}");
+        }
+    }
+    
+    private void MakeAliensShoot()
+    {
+        foreach (var alien in aliens.ToList())
+        {
+            if (alien is AlienType3 alienType3)
+            {
+                if (random.Next(0, 100) < 1)
+                {
+                    alienType3.Shoot(alienBullets);
+                }
+            }
+        }
+    }
+    
+    private void CheckAlienBulletCollisions()
+    {
+        try
+        {
+            foreach (var bullet in alienBullets.ToList())
+            {
+                if (bullet.BulletShape != null && IsCollidingWithPlayer(bullet))
+                {
+                    JogadorFoiAtacado(); // Usando o método centralizado para tratar a perda de vida
+                    alienBullets.Remove(bullet); // Remove o tiro do alien
+                    break; // Impede que o mesmo tiro seja processado múltiplas vezes
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Erro ao verificar colisões com o jogador: {ex.Message}");
+        }
+    }
+
+
+    private bool IsCollidingWithPlayer(Bullet bullet)
+    {
+        try
+        {
+            var bulletLeft = Canvas.GetLeft(bullet.BulletShape);
+            var bulletTop = Canvas.GetTop(bullet.BulletShape);
+            var playerLeft = Canvas.GetLeft(player.Ship);
+            var playerTop = Canvas.GetTop(player.Ship);
+
+            return bulletLeft < playerLeft + player.Ship.Width &&
+                   bulletLeft + bullet.BulletShape.Width > playerLeft &&
+                   bulletTop < playerTop + player.Ship.Height &&
+                   bulletTop + bullet.BulletShape.Height > playerTop;
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Erro ao verificar colisão com o jogador: {ex.Message}");
+            return false;
+        }
+    }
+    
     
     
     private void GameMusicPlayer_MediaEnded(object sender, EventArgs e)
@@ -214,107 +492,6 @@ public partial class GameWindow : Window
         }
     }
 
-    // Evento chamado a cada "tick" do Timer
-    private void GameTimer_Tick(object sender, EventArgs e)
-    {
-        try
-        {
-            // Mover todos os tiros do jogador
-            foreach (var bullet in bullets.ToList())
-            {
-                if (bullet != null && bullet.BulletShape != null)
-                {
-                    bullet.Move();
-                }
-            }
-
-            // Mover todos os tiros dos aliens
-            foreach (var bullet in alienBullets.ToList())
-            {
-                if (bullet != null && bullet.BulletShape != null)
-                {
-                    bullet.Move();
-                }
-            }
-
-            // Verificar colisões entre os tiros do jogador e os aliens
-            CheckCollisions();
-
-            // Verificar colisões entre os tiros dos aliens e o jogador
-            CheckAlienBulletCollisions();
-
-            // Remover tiros que saíram da tela ou colidiram
-            bullets.RemoveAll(bullet => bullet == null || bullet.BulletShape == null || bullet.BulletShape.Visibility == Visibility.Collapsed || Canvas.GetTop(bullet.BulletShape) < 0);
-            alienBullets.RemoveAll(bullet => bullet == null || bullet.BulletShape == null || bullet.BulletShape.Visibility == Visibility.Collapsed || Canvas.GetTop(bullet.BulletShape) > GameCanvas.ActualHeight);
-
-            // Fazer os aliens atirarem
-            MakeAliensShoot();
-
-            MoveAliens();
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Erro no loop do jogo: {ex.Message} \n StackTrace: {ex.StackTrace}");
-
-            Console.WriteLine($"Erro no loop do jogo: {ex.StackTrace}"); // Log para depuração
-
-        }
-    }
-
-    private void MakeAliensShoot()
-    {
-        foreach (var alien in aliens.ToList())
-        {
-            if (alien is AlienType3 alienType3)
-            {
-                if (random.Next(0, 100) < 1)
-                {
-                    alienType3.Shoot(alienBullets);
-                }
-            }
-        }
-    }
-    
-    private void CheckAlienBulletCollisions()
-    {
-        try
-        {
-            foreach (var bullet in alienBullets.ToList())
-            {
-                if (bullet.BulletShape != null && IsCollidingWithPlayer(bullet))
-                {
-                    // Se o tiro atingiu o jogador, é game over
-                    GameOver();
-                    break;
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Erro ao verificar colisões com o jogador: {ex.Message}");
-        }
-    }
-
-    private bool IsCollidingWithPlayer(Bullet bullet)
-    {
-        try
-        {
-            var bulletLeft = Canvas.GetLeft(bullet.BulletShape);
-            var bulletTop = Canvas.GetTop(bullet.BulletShape);
-            var playerLeft = Canvas.GetLeft(player.Ship);
-            var playerTop = Canvas.GetTop(player.Ship);
-
-            return bulletLeft < playerLeft + player.Ship.Width &&
-                   bulletLeft + bullet.BulletShape.Width > playerLeft &&
-                   bulletTop < playerTop + player.Ship.Height &&
-                   bulletTop + bullet.BulletShape.Height > playerTop;
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Erro ao verificar colisão com o jogador: {ex.Message}");
-            return false;
-        }
-    }
     
     // Método para mover a nave para a esquerda ou direita
     private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -410,76 +587,6 @@ public partial class GameWindow : Window
         }
     }
 
-    private void CheckCollisions()
-    {
-        try
-        {
-            
-            // Verifica se algum tiro atingiu a nave mãe
-            foreach (var bullet in bullets.ToList()) // Usar ToList() para evitar modificações durante a iteração
-            {
-                if (bullet.BulletShape != null && masterSpaceship.MasterShipShape != null && masterSpaceship.MasterShipShape.Visibility == Visibility.Visible && IsCollidingWithMasterShip(bullet))
-                {
-                    // Se a colisão ocorreu, destrói a nave mãe e o tiro
-                    masterSpaceship.HitByPlayerShot(); // Chama a função de colisão da nave mãe
-
-                    bullet.BulletShape.Visibility = Visibility.Collapsed; // Oculta o tiro
-
-                    // Incrementa a pontuação com um valor fixo ou aleatório, se necessário
-                    // int scoreValue = 50 + (new Random().Next(0, 6) * 10);
-                    
-                    // Acessa a pontuação diretamente da nave mãe
-                    int scoreValue = masterSpaceship.ScoreValue;
-                    Console.WriteLine($"Master Spaceship hit! Score value: {scoreValue}");
-                    
-                    // Incrementa a pontuação no ViewModel
-                    counterViewModel.IncrementarPontuacao(scoreValue);
-                    
-                    // Atualiza o TextBlock com a nova pontuação
-                    ScoreValue.Text = counterViewModel.Counter.Pontuacao.ToString();
-                }
-            }
-            
-            // Verifica se algum tiro atingiu algum alien
-            foreach (var bullet in bullets.ToList()) // Usar ToList() para evitar modificações durante a iteração
-            {
-                foreach (var alien in aliens.ToList()) // Usar ToList() para evitar modificações durante a iteração
-                {
-                    // Verifica se o alien ainda existe e se o tiro ainda está visível
-                    if (alien.AlienShape != null && bullet.BulletShape != null && IsColliding(bullet, alien))
-                    {
-                        // Se a colisão ocorreu, destrói o alien e o tiro
-                        alien.Destroy();
-                        bullet.BulletShape.Visibility = Visibility.Collapsed; // Oculta o tiro
-
-                        // Incrementa a pontuação com o valor do alien atingido
-                        counterViewModel.IncrementarPontuacao(Convert.ToInt32(alien.Value));
-
-                        // Atualiza o TextBlock com a nova pontuação
-                        ScoreValue.Text = counterViewModel.Counter.Pontuacao.ToString();
-
-                        break;  // Se o tiro acertou um alien, não verifica mais colisões com outros aliens
-                    }
-                }
-                
-                // Verifica colisões com os escudos
-                foreach (var shield in shields.ToList()) // Usar ToList() para evitar modificações durante a iteração
-                {
-                    if (bullet.BulletShape != null && shield.ShieldImage != null && IsCollidingWithShield(bullet, shield))
-                    {
-                        shield.TakeDamage();  // Diminui a vida do escudo
-                        bullet.BulletShape.Visibility = Visibility.Collapsed;  // Destrói o tiro
-                        break; // Um tiro só pode atingir um escudo por vez
-                    }
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Erro ao verificar colisões: {ex.Message}");
-        }
-    }
-
     private bool IsCollidingWithMasterShip(Bullet bullet)
     {
         try
@@ -553,27 +660,5 @@ public partial class GameWindow : Window
         }
     }
 
-    private void GameOver()
-    {
-        try
-        {
-            if (counterViewModel.Counter.Pontuacao >= 500)
-            {
-                // Exibe a mensagem de vitória na tela
-                VictoryMessage.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                // Exibe a mensagem de derrota na tela
-                DefeatMessage.Visibility = Visibility.Visible;
-            }
-
-            // Para o timer e o jogo
-            gameTimer.Stop();
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Erro ao finalizar o jogo: {ex.Message}");
-        }
-    }
+    
 }

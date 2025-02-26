@@ -48,7 +48,7 @@ public partial class MainWindow : Window
             gameWindow.Show();
 
             // Fecha a tela inicial (manter aberta para não ter que criar volta para a Tela Inicial)
-            this.Close();
+            // this.Close();
         }
         catch (Exception ex)
         {

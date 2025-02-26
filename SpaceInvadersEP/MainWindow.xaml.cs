@@ -16,41 +16,72 @@ namespace SpaceInvadersEP;
 /// </summary>
 public partial class MainWindow : Window
 {
-    
+
+	private MediaPlayer menuMusicPlayer; 
+
     public MainWindow()
     {
         InitializeComponent();
-        
-        
+		
+		menuMusicPlayer = new MediaPlayer();
+		menuMusicPlayer.Open(new Uri("Sounds/menu_music.mp3", UriKind.Relative));
+		menuMusicPlayer.MediaEnded += MenuMusicPlayer_MediaEnded;
+		menuMusicPlayer.Volume = 0.1;
+		menuMusicPlayer.Play();
     }
-    
+
+    private void MenuMusicPlayer_MediaEnded(object sender, EventArgs e)
+    {
+        menuMusicPlayer.Position = TimeSpan.Zero;
+		menuMusicPlayer.Play();
+    }
+
     private void IniciarButton_StartGame(object sender, RoutedEventArgs e)
     {
-        
-        // Crie a janela do jogo (por exemplo, GameWindow) e mostre
-        GameWindow gameWindow = new GameWindow();
-        gameWindow.Show();
-            
-        // Fecha a tela inicial
-        this.Close();
+        try
+        {
+
+			menuMusicPlayer.Stop();			
+
+            // Crie a janela do jogo (por exemplo, GameWindow) e mostre
+            GameWindow gameWindow = new GameWindow();
+            gameWindow.Show();
+
+            // Fecha a tela inicial
+            this.Close();
+        }
+        catch (Exception ex)
+        {
+            // Log ou tratamento da exceção
+            MessageBox.Show($"Erro ao iniciar o jogo: {ex.Message}");
+        }
     }
 
     private void IniciarButton_LeaderBoard(object sender, RoutedEventArgs e)
     {
-        LeaderBoardWindow leaderBoardWindow = new LeaderBoardWindow();
-        leaderBoardWindow.Show();
-        
-        // Fecha a tela inicial
-        // this.Close();
+        try
+        {
+            LeaderBoardWindow leaderBoardWindow = new LeaderBoardWindow();
+            leaderBoardWindow.Show();
+        }
+        catch (Exception ex)
+        {
+            // Log ou tratamento da exceção
+            MessageBox.Show($"Erro ao abrir o leaderboard: {ex.Message}");
+        }
     }
 
     private void IniciarButton_GameControls(object sender, RoutedEventArgs e)
     {
-        GameControlsWindow gameControlsWindow = new GameControlsWindow();
-        gameControlsWindow.Show();
-        
-        // Fecha a tela inicial
-        // this.Close();
+        try
+        {
+            GameControlsWindow gameControlsWindow = new GameControlsWindow();
+            gameControlsWindow.Show();
+        }
+        catch (Exception ex)
+        {
+            // Log ou tratamento da exceção
+            MessageBox.Show($"Erro ao abrir os controles do jogo: {ex.Message}");
+        }
     }
-    
 }

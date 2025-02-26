@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET9_0;NETCOREAPP
 C:\Users\PC\RiderProjects\spaceinvaders-bogota\SpaceInvadersEP\App.xaml
-4-464867762
-
-1697169079
+6-304888708
+1-1383442227
+201819264916
 200161758370
-GameControlsWindow.xaml;GameWindow.xaml;LeaderBoardWindow.xaml;MainWindow.xaml;
+ConfirmationScreenWindow.xaml;GameControlsWindow.xaml;GameWindow.xaml;LeaderBoardWindow.xaml;MainWindow.xaml;ScoreSaveScreenWindow.xaml;
 
 False
 

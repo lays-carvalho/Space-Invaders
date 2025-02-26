@@ -9,6 +9,4 @@ public class AlienType2 : Alien
         Value = 20;  // Valor do alien tipo 2
         CanShoot = false;  // Não atira
     }
-
-    
 }

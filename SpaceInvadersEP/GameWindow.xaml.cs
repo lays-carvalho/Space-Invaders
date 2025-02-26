@@ -45,11 +45,11 @@ public partial class GameWindow : Window
 
 			victorySoundPlayer = new MediaPlayer();
 			victorySoundPlayer.Open(new Uri("Sounds/winning_sound.mp3", UriKind.Relative));
-			victorySoundPlayer.Volume = 0.5;
+			victorySoundPlayer.Volume = 1.0;
 
 			defeatSoundPlayer = new MediaPlayer();
 			defeatSoundPlayer.Open(new Uri("Sounds/defeat_sound.mp3", UriKind.Relative));
-			defeatSoundPlayer.Volume = 0.1;
+			defeatSoundPlayer.Volume = 0.7;
 
             gameMusicPlayer = new MediaPlayer();
             gameMusicPlayer.Open(new Uri("Sounds/gameplay_music.mp3", UriKind.Relative));
@@ -141,7 +141,7 @@ public partial class GameWindow : Window
 
         // Interrompe o timer do jogo
         gameTimer.Stop();
-        
+        	
 		gameMusicPlayer.Stop(); // Para a música de fundo
 
         try

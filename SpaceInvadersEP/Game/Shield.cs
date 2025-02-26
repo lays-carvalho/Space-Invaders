@@ -6,7 +6,7 @@ namespace SpaceInvadersEP;
 public class Shield
 {
     public Image ShieldImage { get; set; }
-    public int Health { get; set; } = 30; // Cada escudo tem 5 vidas
+    public int Health { get; set; } = 15; // Cada escudo tem 5 vidas
     public double XPosition { get; set; }
     public double YPosition { get; set; }
     

@@ -128,12 +128,12 @@ namespace SpaceInvadersEP
             MasterShipShape.Visibility = Visibility.Collapsed;
             Canvas.SetTop(MasterShipShape, -MasterShipShape.Height); // A nave vai para fora da tela (acima)
 
-            // Inicia o respawn da nave após 10 segundos
+            // Inicia o respawn da nave após 20 segundos
             if (_respawnTimer == null)
             {
                 _respawnTimer = new DispatcherTimer
                 {
-                    Interval = TimeSpan.FromSeconds(10)
+                    Interval = TimeSpan.FromSeconds(20)
                 };
                 _respawnTimer.Tick += RespawnMasterSpaceship;
                 _respawnTimer.Start();
@@ -142,7 +142,7 @@ namespace SpaceInvadersEP
         }
         
         
-        // Método que cria uma nova nave mãe após 10 segundos
+        // Método que cria uma nova nave mãe após 20 segundos
         private void RespawnMasterSpaceship(object sender, EventArgs e)
         {
             // Para o timer de respawn

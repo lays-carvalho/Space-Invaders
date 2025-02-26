@@ -1,0 +1,7 @@
+Nome,Score
+Lays,1000
+Lays 2,20
+Lays 3,1190
+Lays 4,1160
+Lays,1190
+Lucas,1180

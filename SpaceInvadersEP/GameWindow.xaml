@@ -36,17 +36,31 @@
                    FontFamily="Impact"
                    FontWeight="Bold"
                    TextAlignment="Center" />
-
-        <!-- Mensagem de vitória -->
-        <TextBlock Name="VictoryMessage" 
-                   Text="You Won! 🎮🏆" 
-                   Visibility="Collapsed" 
+        
+        <!-- Mensagem de Next Level (inicialmente invisível) -->
+        <TextBlock x:Name="NextLevelMessage" 
+                   Text="Next Level" 
+                   Visibility="Collapsed"
                    HorizontalAlignment="Center" 
                    VerticalAlignment="Center" 
-                   Foreground="GreenYellow" 
-                   FontFamily="Impact" 
-                   FontSize="70"
+                   FontSize="50" 
+                   Foreground="LightCyan" 
+                   FontFamily="Impact"
                    FontWeight="Bold"
-                   TextAlignment="Center" />
+                   TextAlignment="Center"
+                   />
+
+        <!-- ~1~ Mensagem de vitória @1@ -->
+        <!-- <TextBlock Name="VictoryMessage"  -->
+        <!--            Text="You Won! 🎮🏆"  -->
+        <!--            Visibility="Collapsed"  -->
+        <!--            HorizontalAlignment="Center"  -->
+        <!--            VerticalAlignment="Center"  -->
+        <!--            Foreground="GreenYellow"  -->
+        <!--            FontFamily="Impact"  -->
+        <!--            FontSize="70" -->
+        <!--            FontWeight="Bold" -->
+        <!--            TextAlignment="Center" /> -->
+        
     </Grid>
 </Window>

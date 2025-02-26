@@ -32,8 +32,8 @@
 
         public void VerificarGanhoDeVida()
         {
-            // A vida só será incrementada quando a diferença de pontos ultrapassar 200
-            if (Pontos - ultimoPontoProcessado >= 1000 && Vidas < 3)
+            // A vida só será incrementada quando a diferença de pontos ultrapassar 1000
+            if (Pontos - ultimoPontoProcessado >= 1000 && Vidas < 6)
             {
                 Vidas++; // Incrementa uma vida
                 ultimoPontoProcessado = Pontos; // Atualiza o último ponto processado

@@ -286,7 +286,7 @@ public partial class GameWindow : Window
     }
     
     private void CheckCollisions()
-{
+	{
     try
     {
         // Verifica se algum tiro atingiu a nave mãe
@@ -303,7 +303,7 @@ public partial class GameWindow : Window
                 int scoreValue = masterSpaceship.ScoreValue;
                 Console.WriteLine($"Master Spaceship hit! Score value: {scoreValue}");
 
-                // Adiciona os pontos ganhos ao total de pontos
+                // Adiciona os pontos ganhos ao total de pontos (apenas o valor da nave mãe)
                 controlLives.AdicionarPontos(scoreValue);
 
                 // Incrementa a pontuação no ViewModel
@@ -330,10 +330,11 @@ public partial class GameWindow : Window
                     aliens.Remove(alien);
 
                     // Incrementa a pontuação com o valor do alien atingido
-                    counterViewModel.IncrementarPontuacao(Convert.ToInt32(alien.Value));
+                    int alienValue = Convert.ToInt32(alien.Value);
+                    counterViewModel.IncrementarPontuacao(alienValue);
 
-                    // Adiciona os pontos ganhos
-                    controlLives.AdicionarPontos(counterViewModel.Counter.Pontuacao);
+                    // Adiciona os pontos ganhos (apenas o valor do alien atingido)
+                    controlLives.AdicionarPontos(alienValue);
 
                     // Atualiza o TextBlock com a nova pontuação
                     ScoreValue.Text = counterViewModel.Counter.Pontuacao.ToString();
@@ -369,10 +370,10 @@ public partial class GameWindow : Window
         }
     }
     catch (Exception ex)
-    {
+    	{
         MessageBox.Show($"Erro ao verificar colisões: {ex.Message}");
-    }
-}
+    	}
+	}
     
     private void MakeAliensShoot()
     {

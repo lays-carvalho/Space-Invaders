@@ -158,7 +158,7 @@ public partial class GameWindow : Window
         if (!gameWon) 
         {
             // Mostra a janela de Game Over (perguntar se quer salvar o score)
-            var confirmationScreenWindow = new ConfirmationScreenWindow();
+            var confirmationScreenWindow = new ConfirmationScreenWindow(counterViewModel.Counter.Pontuacao);
             confirmationScreenWindow.Show();
             
             // this.Close(); //se quiser encerrar a janela do jogo
@@ -279,7 +279,7 @@ public partial class GameWindow : Window
         gameWon = true;
         
         // Mostra a janela de confirmação de vitória
-        var confirmationScreenWindow = new ConfirmationScreenWindow();
+        var confirmationScreenWindow = new ConfirmationScreenWindow(counterViewModel.Counter.Pontuacao);
         confirmationScreenWindow.Show();
         // this.Close(); //se quiser encerrar a janela do jogo
 

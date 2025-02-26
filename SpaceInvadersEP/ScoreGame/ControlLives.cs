@@ -30,6 +30,7 @@ public class ControlLives
         }
     }
     
+    
     // Lógica para ganhar pontos
     public void AdicionarPontos(int pontosGanhos)
     {

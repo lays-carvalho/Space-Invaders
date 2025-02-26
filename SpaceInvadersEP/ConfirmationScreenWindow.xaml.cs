@@ -4,15 +4,18 @@ namespace SpaceInvadersEP;
 
 public partial class ConfirmationScreenWindow : Window
 {
-    public ConfirmationScreenWindow()
+    private int score; // Para armazenar a pontuação do jogador
+    
+    public ConfirmationScreenWindow(int scoreJogador)
     {
         InitializeComponent();
+        score = scoreJogador;  // Armazena a pontuação
     }
     
     private void BtnSim_Click(object sender, RoutedEventArgs e)
     {
         // Lógica para redirecionar para a tela de inserir o nome
-        var nomeWindow = new ScoreSaveScreenWindow();  // Você vai criar essa tela para pegar o nome do jogador
+        var nomeWindow = new ScoreSaveScreenWindow(score);  // Você vai criar essa tela para pegar o nome do jogador
         nomeWindow.Show();
         this.Close();  // Fecha a janela de GameOver
     }

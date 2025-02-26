@@ -31,6 +31,7 @@ public partial class GameWindow : Window
     private bool isGameOver = false; // Nova variável para controle de finalização do jogo
 	private MediaPlayer defeatSoundPlayer;
 	private MediaPlayer victorySoundPlayer;
+    private bool isPlayerBulletActive = false;
     
     public GameWindow()
     {
@@ -205,9 +206,13 @@ public partial class GameWindow : Window
             CheckAlienBulletCollisions();
     
             // Remover tiros que saíram da tela ou colidiram
-            bullets.RemoveAll(bullet => bullet == null || bullet.BulletShape == null || bullet.BulletShape.Visibility == Visibility.Collapsed || Canvas.GetTop(bullet.BulletShape) < 0);
+            bullets.RemoveAll(bullet => bullet == null || bullet.BulletShape == null || bullet.BulletShape.Visibility == Visibility.Collapsed || Canvas.GetTop(bullet.BulletShape) < -3);
             alienBullets.RemoveAll(bullet => bullet == null || bullet.BulletShape == null || bullet.BulletShape.Visibility == Visibility.Collapsed || Canvas.GetTop(bullet.BulletShape) > GameCanvas.ActualHeight);
     
+            if (bullets.Count == 0)
+            {
+                isPlayerBulletActive = false;
+            }
             // Fazer os aliens atirarem
             MakeAliensShoot();
     
@@ -392,6 +397,7 @@ public partial class GameWindow : Window
                 if (bullet.BulletShape != null && IsCollidingWithPlayer(bullet))
                 {
                     JogadorFoiAtacado(); // Usando o método centralizado para tratar a perda de vida
+                    bullet.BulletShape.Visibility = Visibility.Collapsed; // Oculta o tiro
                     alienBullets.Remove(bullet); // Remove o tiro do alien
                     break; // Impede que o mesmo tiro seja processado múltiplas vezes
                 }
@@ -576,12 +582,18 @@ public partial class GameWindow : Window
             }
             else if (e.Key == Key.Space)  // Quando pressionar a barra de espaço, atirar
             {
-                // Criar um novo tiro na posição da nave
-                Bullet newBullet = new Bullet(Canvas.GetLeft(player.Ship) + (player.Ship.Width / 2) - 2, Canvas.GetTop(player.Ship) - 10, GameCanvas.ActualHeight);	
-                bullets.Add(newBullet);
-                GameCanvas.Children.Add(newBullet.BulletShape); // Adiciona o tiro ao Canvas
+                if (!isPlayerBulletActive)
+                {
 
-                player.PlayShootSound();
+                    // Criar um novo tiro na posição da nave
+                    Bullet newBullet = new Bullet(Canvas.GetLeft(player.Ship) + (player.Ship.Width / 2) - 2,
+                        Canvas.GetTop(player.Ship) - 10, GameCanvas.ActualHeight);
+                    bullets.Add(newBullet);
+                    GameCanvas.Children.Add(newBullet.BulletShape); // Adiciona o tiro ao Canvas
+
+                    player.PlayShootSound();
+                    isPlayerBulletActive = true;
+                }
             }
         }
         catch (Exception ex)

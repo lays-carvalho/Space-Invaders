@@ -217,9 +217,19 @@ O projeto está organizado da seguinte forma:
 
 ## 🚀 Demo
 
-https://www.youtube.com/watch?v=d5-i3XkwyEo
+O vídeo da apresentação está disponível em:
+👉 https://www.youtube.com/watch?v=d5-i3XkwyEo
 
-A aplicação está disponível em:
+
+
+## ⬇️ Download do Jogo (Windows)
+
+O download da aplicação está disponível em:
+👉 https://github.com/lays-carvalho/Space-Invaders/releases/tag/v1.0.0
+
+- Baixar `.exe`: `SpaceInvaders-v1.0-win64.zip`
+
+Basta baixar, extrair o `.zip` e executar o arquivo `.exe`.
 
 
 

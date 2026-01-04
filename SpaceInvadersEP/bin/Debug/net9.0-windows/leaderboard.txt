@@ -1,7 +1,0 @@
-Nome,Score
-Lays,70
-Lays,70
-Jose,80
-Enderson,1230
-Luiz,1210
-Gabriel,1100
